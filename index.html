@@ -1425,6 +1425,42 @@
                 transform: scale(1);
             }
         }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .slot-machine-container {
+                padding: 20px;
+                width: 90%;
+            }
+
+            .slot-window {
+                height: 120px;
+            }
+
+            .reel {
+                font-size: 2rem;
+            }
+
+            .symbol {
+                height: 100px;
+            }
+
+            .lever {
+                right: -15px;
+                width: 15px;
+                height: 70px;
+            }
+
+            .lever::after {
+                width: 30px;
+                height: 30px;
+                top: -15px;
+                right: -8px;
+            }
+        }
     </style>
 
     <script>
