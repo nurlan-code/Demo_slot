@@ -1,0 +1,1510 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DemoSlots.pt - O Melhor Casino Social de Portugal 🎰</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <style>
+        /* 
+         * CORE VARIABLES & RESET 
+         */
+        :root {
+            --primary: #8B5CF6;
+            --primary-dark: #7c3aed;
+            --secondary: #EC4899;
+            --accent: #F59E0B;
+            --success: #10B981;
+            --dark-bg: #0F172A;
+            --dark-card: #1E293B;
+            --text-light: #F8FAFC;
+            --text-dim: #94A3B8;
+            --glass: rgba(30, 41, 59, 0.7);
+            --border: rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: var(--dark-bg);
+            color: var(--text-light);
+            overflow-x: hidden;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: 0.3s;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        button {
+            cursor: pointer;
+            border: none;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        /* 
+         * UTILITIES 
+         */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .flex {
+            display: flex;
+        }
+
+        .grid {
+            display: grid;
+        }
+
+        .items-center {
+            align-items: center;
+        }
+
+        .justify-between {
+            justify-content: space-between;
+        }
+
+        .justify-center {
+            justify-content: center;
+        }
+
+        .gap-2 {
+            gap: 0.5rem;
+        }
+
+        .gap-4 {
+            gap: 1rem;
+        }
+
+        .gap-8 {
+            gap: 2rem;
+        }
+
+        .text-primary {
+            color: var(--primary);
+        }
+
+        .text-secondary {
+            color: var(--secondary);
+        }
+
+        .text-accent {
+            color: var(--accent);
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .btn {
+            padding: 10px 24px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(139, 92, 246, 0.6);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid var(--border);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        /* 
+         * HEADER 
+         */
+        header {
+            position: relative;
+            z-index: 1000;
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 0;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: linear-gradient(to right, #8B5CF6, #EC4899, #F59E0B);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        header .container {
+            position: relative;
+        }
+
+        .nav-link {
+            font-weight: 500;
+            color: var(--text-dim);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: white;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        /* Dropdown Menu */
+        .nav-dropdown {
+            position: relative;
+        }
+
+        .nav-dropdown>.nav-link {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .nav-dropdown>.nav-link::after {
+            content: '▼';
+            font-size: 0.7rem;
+            transition: transform 0.3s;
+        }
+
+        .nav-dropdown:hover>.nav-link::after {
+            transform: rotate(180deg);
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: var(--dark-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            min-width: 200px;
+            padding: 0.5rem 0;
+            margin-top: 0.5rem;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+        }
+
+        .nav-dropdown:hover .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-menu a {
+            display: block;
+            padding: 0.75rem 1.5rem;
+            color: var(--text-dim);
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .dropdown-menu a:hover {
+            color: white;
+            background: rgba(255, 255, 255, 0.05);
+            padding-left: 2rem;
+        }
+
+        /* Mobile Menu Toggle */
+        .mobile-menu-toggle {
+            display: none;
+            background: transparent;
+            border: 1px solid var(--border);
+            color: white;
+            padding: 0.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.5rem;
+        }
+
+        .mobile-menu-toggle:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .search-bar {
+            background: var(--dark-card);
+            border: 1px solid var(--border);
+            border-radius: 50px;
+            padding: 0.5rem 1rem;
+            display: flex;
+            align-items: center;
+            width: 200px;
+        }
+
+        .search-bar input {
+            background: transparent;
+            border: none;
+            color: white;
+            outline: none;
+            width: 100%;
+        }
+
+        /* 
+         * HERO SECTION (SLOT MACHINE) 
+         */
+        .hero {
+            padding: 4rem 0;
+            background: radial-gradient(circle at top right, rgba(139, 92, 246, 0.15), transparent),
+                radial-gradient(circle at bottom left, rgba(236, 72, 153, 0.15), transparent);
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .slot-machine-container {
+            background: linear-gradient(180deg, #2D1B69, #1E1B4B);
+            border: 4px solid #F59E0B;
+            border-radius: 20px;
+            padding: 40px;
+            width: 100%;
+            max-width: 600px;
+            margin: 2rem auto;
+            position: relative;
+            box-shadow: 0 0 50px rgba(245, 158, 11, 0.2), inset 0 0 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .slot-window {
+            display: flex;
+            gap: 10px;
+            background: #000;
+            padding: 10px;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+            overflow: hidden;
+            height: 150px;
+            /* Fixed height for animation */
+            position: relative;
+        }
+
+        .slot-window::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 20px;
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.8), transparent);
+            z-index: 10;
+        }
+
+        .slot-window::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 20px;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+            z-index: 10;
+        }
+
+        .reel {
+            background: white;
+            flex: 1;
+            border-radius: 6px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 3rem;
+            position: relative;
+        }
+
+        .reel-inner {
+            display: flex;
+            flex-direction: column;
+            transition: transform 3s cubic-bezier(0.25, 1, 0.5, 1);
+            will-change: transform;
+        }
+
+        .symbol {
+            height: 130px;
+            /* Match viewer height approx */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .lever {
+            position: absolute;
+            right: -30px;
+            top: 50px;
+            width: 20px;
+            height: 100px;
+            background: #9CA3AF;
+            border-radius: 0 10px 10px 0;
+            cursor: pointer;
+        }
+
+        .lever::after {
+            content: '';
+            position: absolute;
+            top: -20px;
+            right: -10px;
+            width: 40px;
+            height: 40px;
+            background: #EF4444;
+            border-radius: 50%;
+            box-shadow: inset -2px -2px 10px rgba(0, 0, 0, 0.3);
+            transition: top 0.3s;
+        }
+
+        .lever.pulled::after {
+            top: 80px;
+        }
+
+        .hero-features {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .feature-chip {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* 
+         * GAMIFICATION BANNER 
+         */
+        .achievement-banner {
+            background: linear-gradient(90deg, #1e1b4b, #312e81);
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+            padding: 1.5rem 0;
+        }
+
+        .progress-container {
+            flex: 1;
+            max-width: 400px;
+        }
+
+        .progress-bar-bg {
+            height: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+            overflow: hidden;
+            margin-top: 5px;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            width: 80%;
+            background: linear-gradient(90deg, #10B981, #34D399);
+            border-radius: 5px;
+        }
+
+        /* 
+         * CARD GRIDS (PLATFORMS) 
+         */
+        .section-title {
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .platform-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .platform-card {
+            background: var(--dark-card);
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            overflow: hidden;
+            position: relative;
+            transition: 0.4s;
+            height: 380px;
+            perspective: 1000px;
+            /* For flip effect */
+        }
+
+        .card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.8s;
+            transform-style: preserve-3d;
+        }
+
+        .platform-card:hover .card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .card-front,
+        .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            border-radius: 16px;
+            background: var(--dark-card);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-back {
+            transform: rotateY(180deg);
+            padding: 20px;
+            background: linear-gradient(135deg, #1E293B, #0F172A);
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .card-badge {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: #F59E0B;
+            color: #000;
+            font-weight: 700;
+            padding: 4px 12px;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            z-index: 2;
+        }
+
+        .card-image {
+            height: 160px;
+            background: #2D1B69;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+        }
+
+        .card-content {
+            padding: 20px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .rating-stars {
+            color: #F59E0B;
+            margin-bottom: 5px;
+        }
+
+        /* 
+         * WHEEL OF FORTUNE 
+         */
+        .wheel-section {
+            padding: 4rem 0;
+            background: #111827;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .wheel-container {
+            position: relative;
+            width: 400px;
+            height: 400px;
+            margin: 0 auto;
+        }
+
+        .wheel {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 10px solid #FFFFFF;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            position: relative;
+            transition: transform 5s cubic-bezier(0.1, 0.7, 0.1, 1);
+            background: conic-gradient(#EF4444 0deg 45deg,
+                    #F59E0B 45deg 90deg,
+                    #10B981 90deg 135deg,
+                    #3B82F6 135deg 180deg,
+                    #8B5CF6 180deg 225deg,
+                    #EC4899 225deg 270deg,
+                    #6366F1 270deg 315deg,
+                    #F97316 315deg 360deg);
+        }
+
+        .wheel-pointer {
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 20px solid transparent;
+            border-right: 20px solid transparent;
+            border-top: 40px solid white;
+            z-index: 10;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+        }
+
+        .spin-btn {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80px;
+            height: 80px;
+            background: white;
+            border-radius: 50%;
+            border: 4px solid var(--dark-bg);
+            font-weight: 800;
+            color: var(--dark-bg);
+            z-index: 5;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+            font-size: 1.2rem;
+        }
+
+        /* 
+         * TICKER 
+         */
+        .live-ticker {
+            background: #EC4899;
+            color: white;
+            padding: 10px 0;
+            overflow: hidden;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .ticker-content {
+            white-space: nowrap;
+            animation: ticker 30s linear infinite;
+        }
+
+        @keyframes ticker {
+            0% {
+                transform: translateX(100%);
+            }
+
+            100% {
+                transform: translateX(-100%);
+            }
+        }
+
+        /* 
+         * FOOTER 
+         */
+        footer {
+            background: #020617;
+            padding: 4rem 0 0 0;
+            margin-top: 4rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 4rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-title {
+            color: white;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            display: block;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-links a {
+            color: var(--text-dim);
+        }
+
+        .footer-links a:hover {
+            color: var(--primary);
+        }
+
+        .copyright-bar {
+            background: #000;
+            padding: 1.5rem 0;
+            text-align: center;
+            color: #64748B;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        /* Large Desktop (1024px+) - Base styles already handle this */
+
+        /* Desktop (992px - 1024px) */
+        @media (max-width: 1024px) {
+            .container {
+                padding: 0 16px;
+            }
+
+            .platform-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .wheel-container {
+                width: 350px;
+                height: 350px;
+            }
+        }
+
+        /* Small Desktop / Large Tablet (768px - 992px) */
+        @media (max-width: 992px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .slot-machine-container {
+                padding: 30px;
+            }
+
+            .hero-features {
+                gap: 1rem;
+                flex-wrap: wrap;
+            }
+
+            .achievement-banner .container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .progress-container {
+                max-width: 100%;
+            }
+
+            .section-title {
+                font-size: 1.75rem;
+            }
+
+            .platform-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .wheel-container {
+                width: 320px;
+                height: 320px;
+            }
+
+            .footer-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 2rem;
+            }
+        }
+
+        /* Tablet (576px - 768px) */
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 15px;
+            }
+
+            .hero {
+                padding: 3rem 0;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .slot-machine-container {
+                padding: 25px;
+                max-width: 100%;
+            }
+
+            .slot-window {
+                height: 120px;
+                gap: 8px;
+            }
+
+            .symbol {
+                height: 100px;
+            }
+
+            .lever {
+                right: -25px;
+                width: 18px;
+                height: 80px;
+            }
+
+            .lever::after {
+                width: 35px;
+                height: 35px;
+            }
+
+            .hero-features {
+                gap: 0.75rem;
+                margin-top: 2rem;
+            }
+
+            .feature-chip {
+                font-size: 0.85rem;
+                padding: 6px 12px;
+            }
+
+            .achievement-banner {
+                padding: 1.25rem 0;
+            }
+
+            .section-title {
+                font-size: 1.5rem;
+                margin-bottom: 1.5rem;
+            }
+
+            .platform-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .wheel-section {
+                padding: 3rem 0;
+            }
+
+            .wheel-container {
+                width: 280px;
+                height: 280px;
+            }
+
+            .spin-btn {
+                width: 70px;
+                height: 70px;
+                font-size: 1rem;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            header .container {
+                flex-wrap: wrap;
+                gap: 1rem;
+            }
+
+            .logo {
+                font-size: 1.2rem;
+                flex: 1;
+                min-width: 0;
+            }
+
+            .logo span {
+                font-size: 1.5rem !important;
+            }
+
+            .mobile-menu-toggle {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                order: 2;
+            }
+
+            .header-right {
+                order: 3;
+                width: 100%;
+                display: flex;
+                gap: 0.5rem;
+                margin-top: 0;
+            }
+
+            nav {
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: var(--dark-card);
+                border-bottom: 1px solid var(--border);
+                flex-direction: column;
+                padding: 1rem;
+                opacity: 0;
+                visibility: hidden;
+                transform: translateY(-20px);
+                transition: all 0.3s ease;
+                max-height: 0;
+                overflow: hidden;
+                order: 4;
+                width: 100%;
+                z-index: 1000;
+                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            }
+
+            nav.mobile-open {
+                opacity: 1;
+                visibility: visible;
+                transform: translateY(0);
+                max-height: 90vh;
+                overflow-y: auto;
+            }
+
+            @keyframes slideIn {
+                from {
+                    transform: translateX(-100%);
+                }
+
+                to {
+                    transform: translateX(0);
+                }
+            }
+
+            .nav-link {
+                display: block;
+                width: 100%;
+                padding: 0.75rem 1rem;
+            }
+
+            .nav-dropdown>.nav-link {
+                justify-content: space-between;
+            }
+
+            .dropdown-menu {
+                position: static;
+                opacity: 1;
+                visibility: visible;
+                transform: none;
+                box-shadow: none;
+                border: none;
+                border-top: 1px solid var(--border);
+                border-radius: 0;
+                margin-top: 0;
+                background: rgba(0, 0, 0, 0.3);
+            }
+
+            .search-bar {
+                flex: 1;
+                min-width: 0;
+                width: auto;
+                margin: 0;
+            }
+
+            .search-bar input {
+                font-size: 0.85rem;
+                padding: 0.5rem 0.75rem;
+            }
+
+            .header-right .btn {
+                padding: 8px 12px;
+                font-size: 0.85rem;
+                white-space: nowrap;
+            }
+
+            .header-right .btn span {
+                display: none;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .logo {
+                font-size: 1rem;
+            }
+
+            .header-right {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .search-bar {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- LIVE TICKER -->
+    <div class="live-ticker">
+        <div class="container overflow-hidden">
+            <div class="ticker-content">
+                🎰 João_Lisboa ganhou 50,000 moedas no Book of Dead! • 🌟 Maria★Porto está a jogar Starburst • 🏆
+                Pedro_Faro conquistou "Slot Master" • 🎁 Nova plataforma: DragonSlots Lisboa • 🎮 2,543 jogadores online
+            </div>
+        </div>
+    </div>
+
+    <!-- HEADER -->
+    <header>
+        <div class="container flex justify-between items-center">
+            <a href="index.html" class="logo">
+                <img src="images/logo.svg" alt="DemoSlots" height="50">
+            </a>
+
+            <button class="mobile-menu-toggle" id="mobileMenuToggle">☰</button>
+
+            <nav class="flex gap-2" id="mainNav">
+                <a href="index.html" class="nav-link active">Início</a>
+
+                <div class="nav-dropdown">
+                    <a href="rankings.html" class="nav-link">Plataformas</a>
+                    <div class="dropdown-menu">
+                        <a href="rankings.html">Top Sites</a>
+                        <a href="novos-casinos.html">Novos Casinos</a>
+                        <a href="mobile-apps.html">Mobile Apps</a>
+                    </div>
+                </div>
+
+                <div class="nav-dropdown">
+                    <a href="games.html" class="nav-link">Jogos</a>
+                    <div class="dropdown-menu">
+                        <a href="games.html">Todos Jogos</a>
+                        <a href="providers.html">Providers</a>
+                    </div>
+                </div>
+
+                <a href="bonuses.html" class="nav-link">Bónus</a>
+
+                <div class="nav-dropdown">
+                    <a href="community.html" class="nav-link">Comunidade</a>
+                    <div class="dropdown-menu">
+                        <a href="tournaments.html">Torneios</a>
+                        <a href="community.html">Fórum</a>
+                        <a href="profile.html">Leaderboards</a>
+                    </div>
+                </div>
+            </nav>
+
+            <div class="flex gap-4 items-center header-right">
+                <div class="search-bar">
+                    <span style="margin-right: 8px;">🔍</span>
+                    <input type="text" placeholder="Procurar...">
+                </div>
+                <!-- Profile Mini -->
+                <a href="profile.html" class="btn btn-secondary" style="padding: 8px 16px;">
+                    👤 <span style="font-size: 0.9rem;">Perfil</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="hero">
+        <div class="container">
+            <h1>Gira e Descobre as Melhores<br><span class="text-primary">Plataformas de Portugal!</span></h1>
+            <p class="text-dim" style="font-size: 1.2rem; margin-bottom: 2rem;">Risco Zero. 100% Diversão. A tua
+                comunidade de casino social.</p>
+
+            <!-- SLOT MACHINE -->
+            <div class="slot-machine-container">
+                <div class="lever" onclick="spinSlots()"></div>
+                <div class="slot-window">
+                    <div class="reel">
+                        <div class="reel-inner" id="reel1"></div>
+                    </div>
+                    <div class="reel">
+                        <div class="reel-inner" id="reel2"></div>
+                    </div>
+                    <div class="reel">
+                        <div class="reel-inner" id="reel3"></div>
+                    </div>
+                </div>
+
+                <button class="btn btn-primary" onclick="spinSlots()" style="font-size: 1.2rem; padding: 15px 40px;">
+                    🎰 GIRAR AGORA!
+                </button>
+                <div style="margin-top: 1rem; color: #F59E0B; font-weight: 600;">
+                    🎁 Giros Grátis: <span id="spins-left">3</span> restantes
+                </div>
+            </div>
+
+            <div class="hero-features">
+                <div class="feature-chip">✨ 50+ Plataformas</div>
+                <div class="feature-chip">🎮 5,000+ Jogos</div>
+                <div class="feature-chip">🏆 Rankings Diários</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ACHIEVEMENT BANNER -->
+    <section class="achievement-banner">
+        <div class="container flex items-center justify-between gap-8">
+            <div class="flex items-center gap-4">
+                <div style="font-size: 2.5rem;">🏆</div>
+                <div>
+                    <h3 style="font-weight: 700;">O Teu Progresso</h3>
+                    <p class="text-dim">Nível 5 - Explorador</p>
+                </div>
+            </div>
+
+            <div class="progress-container">
+                <div class="flex justify-between" style="font-size: 0.9rem; margin-bottom: 5px;">
+                    <span>80% completado</span>
+                    <span class="text-accent">Próximo: 10k Coins</span>
+                </div>
+                <div class="progress-bar-bg">
+                    <div class="progress-bar-fill"></div>
+                </div>
+            </div>
+
+            <a href="profile.html" class="btn btn-secondary">Ver Desafios →</a>
+        </div>
+    </section>
+
+    <!-- TOP PLATFORMS GRID -->
+    <section class="container" style="padding: 4rem 20px;">
+        <div class="section-title">
+            <span>🔥</span> Top Plataformas da Semana
+        </div>
+
+        <div class="platform-grid">
+            <!-- Card 1 -->
+            <div class="platform-card">
+                <div class="card-inner">
+                    <div class="card-front">
+                        <div class="card-badge">#1 ESCOLHA</div>
+                        <div class="card-image">🎲</div>
+                        <div class="card-content">
+                            <h3 style="font-size: 1.5rem; margin-bottom: 0.5rem;">LuckySpins</h3>
+                            <div class="rating-stars">⭐⭐⭐⭐⭐ 9.9</div>
+                            <p class="text-dim" style="font-size: 0.9rem;">Maior seleção de slots em PT.</p>
+                            <div style="margin-top: auto;">
+                                <div
+                                    style="background: rgba(245, 158, 11, 0.1); color: #F59E0B; padding: 8px; border-radius: 8px; font-weight: 600; text-align: center; margin-bottom: 1rem;">
+                                    🎁 20,000 Moedas Grátis
+                                </div>
+                                <div class="text-center text-dim" style="font-size: 0.8rem;">Passa o rato para ver mais
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-back">
+                        <h3 style="font-size: 1.5rem; color: var(--primary);">LuckySpins</h3>
+                        <p style="margin: 1rem 0; color: #CBD5E1;">"A melhor experiência móvel de 2025"</p>
+                        <ul style="text-align: left; margin-bottom: 2rem; color: #94A3B8;">
+                            <li>✅ Sem registo necessário</li>
+                            <li>✅ Pagamentos instantâneos</li>
+                            <li>✅ Apoio 24/7</li>
+                        </ul>
+                        <div class="flex gap-2">
+                            <a href="platform-detail.html" class="btn btn-primary">Jogar Agora</a>
+                            <a href="platform-detail.html" class="btn btn-secondary">Ler Review</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="platform-card">
+                <div class="card-inner">
+                    <div class="card-front">
+                        <div class="card-badge" style="background: #EC4899; color: white;">NOVO</div>
+                        <div class="card-image" style="background: #831843;">💎</div>
+                        <div class="card-content">
+                            <h3 style="font-size: 1.5rem; margin-bottom: 0.5rem;">RubySlots</h3>
+                            <div class="rating-stars">⭐⭐⭐⭐⭐ 9.7</div>
+                            <p class="text-dim" style="font-size: 0.9rem;">Design luxuoso e VIP club.</p>
+                            <div style="margin-top: auto;">
+                                <div
+                                    style="background: rgba(236, 72, 153, 0.1); color: #EC4899; padding: 8px; border-radius: 8px; font-weight: 600; text-align: center; margin-bottom: 1rem;">
+                                    🎁 150 Free Spins
+                                </div>
+                                <div class="text-center text-dim" style="font-size: 0.8rem;">Passa o rato para ver mais
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-back">
+                        <h3 style="font-size: 1.5rem; color: #EC4899;">RubySlots</h3>
+                        <p style="margin: 1rem 0; color: #CBD5E1;">"Luxo e exclusividade"</p>
+                        <ul style="text-align: left; margin-bottom: 2rem; color: #94A3B8;">
+                            <li>✅ Bónus High Roller</li>
+                            <li>✅ Jogos Exclusivos</li>
+                        </ul>
+                        <div class="flex gap-2">
+                            <a href="platform-detail.html" class="btn btn-primary">Jogar Agora</a>
+                            <a href="platform-detail.html" class="btn btn-secondary">Ler Review</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="platform-card">
+                <div class="card-inner">
+                    <div class="card-front">
+                        <div class="card-badge" style="background: #10B981;">POPULAR</div>
+                        <div class="card-image" style="background: #064E3B;">🍀</div>
+                        <div class="card-content">
+                            <h3 style="font-size: 1.5rem; margin-bottom: 0.5rem;">GreenLuck</h3>
+                            <div class="rating-stars">⭐⭐⭐⭐½ 9.5</div>
+                            <p class="text-dim" style="font-size: 0.9rem;">Torneios diários garantidos.</p>
+                            <div style="margin-top: auto;">
+                                <div
+                                    style="background: rgba(16, 185, 129, 0.1); color: #10B981; padding: 8px; border-radius: 8px; font-weight: 600; text-align: center; margin-bottom: 1rem;">
+                                    🎁 100% Cashback
+                                </div>
+                                <div class="text-center text-dim" style="font-size: 0.8rem;">Passa o rato para ver mais
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-back">
+                        <h3 style="font-size: 1.5rem; color: #10B981;">GreenLuck</h3>
+                        <p style="margin: 1rem 0; color: #CBD5E1;">"A casa dos torneios"</p>
+                        <ul style="text-align: left; margin-bottom: 2rem; color: #94A3B8;">
+                            <li>✅ Torneios a cada hora</li>
+                            <li>✅ Social Feed ativo</li>
+                        </ul>
+                        <div class="flex gap-2">
+                            <a href="platform-detail.html" class="btn btn-primary">Jogar Agora</a>
+                            <a href="platform-detail.html" class="btn btn-secondary">Ler Review</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center">
+            <a href="platform-detail.html" class="btn btn-secondary" style="padding: 15px 40px;">Ver Todas as 50+
+                Plataformas</a>
+        </div>
+    </section>
+
+    <!-- WHEEL SECTION -->
+    <section class="wheel-section">
+        <div class="container flex items-center justify-between" style="flex-wrap: wrap;">
+            <div style="max-width: 500px; margin-bottom: 2rem;">
+                <h2 style="font-size: 2.5rem; margin-bottom: 1rem;">🎡 Roda da Sorte Diária</h2>
+                <p class="text-dim" style="margin-bottom: 2rem;">Vem girar a roda todos os dias para ganhares prémios
+                    exclusivos, moedas bónus e estatuto VIP na nossa comunidade!</p>
+
+                <div class="flex gap-4">
+                    <div
+                        style="background: var(--dark-card); padding: 15px; border-radius: 10px; border: 1px solid var(--border);">
+                        <div class="text-accent" style="font-size: 1.5rem; font-weight: 700;">5,000</div>
+                        <div style="font-size: 0.8rem;">Prémio Max</div>
+                    </div>
+                    <div
+                        style="background: var(--dark-card); padding: 15px; border-radius: 10px; border: 1px solid var(--border);">
+                        <div class="text-success" style="font-size: 1.5rem; font-weight: 700;">100%</div>
+                        <div style="font-size: 0.8rem;">Grátis</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="wheel-container">
+                <div class="wheel-pointer"></div>
+                <button class="spin-btn" onclick="spinWheel()">GIRAR</button>
+                <div class="wheel" id="wheel"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div>
+                    <div class="logo" style="margin-bottom: 1rem;">
+                        <a href="index.html" style="text-decoration:none;">
+                            <img src="images/logo.svg" alt="DemoSlots" height="50">
+                        </a>
+                    </div>
+                    <p class="text-dim" style="line-height: 1.6;">
+                        O teu destino #1 para slots demo em Portugal. Plataforma 100% social e gratuita para
+                        entretenimento.
+                    </p>
+                </div>
+
+                <div>
+                    <span class="footer-title">Plataformas</span>
+                    <ul class="footer-links">
+                        <li><a href="#">Top Rated</a></li>
+                        <li><a href="novos-casinos.html">Novos Casinos</a></li>
+                        <li><a href="mobile-apps.html">Mobile Apps</a></li>
+                        <li><a href="#">Sem Registo</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <span class="footer-title">Comunidade</span>
+                    <ul class="footer-links">
+                        <li><a href="tournaments.html">Torneios</a></li>
+                        <li><a href="profile.html">Leaderboards</a></li>
+                        <li><a href="community.html">Fórum</a></li>
+                        <li><a href="news.html">Blog</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <span class="footer-title">Informação</span>
+                    <ul class="footer-links">
+                        <li><a href="about.html">Sobre Nós</a></li>
+                        <li><a href="contact.html">Contacto</a></li>
+                        <li><a href="responsible-gaming.html">Jogo Responsável</a></li>
+                        <li><a href="#">Termos e Condições</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="copyright-bar">
+                © 2025 DemoSlots.pt - Todos os direitos reservados. 18+ | Joga Responsavelmente.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // SLOT MACHINE LOGIC
+        const symbols = ['🍒', '🍋', '🍇', '💎', '🔔', '🍀', '7️⃣', '🎰'];
+        const reel1 = document.getElementById('reel1');
+        const reel2 = document.getElementById('reel2');
+        const reel3 = document.getElementById('reel3');
+        let spins = 3;
+
+        function initDigitalReels() {
+            [reel1, reel2, reel3].forEach(reel => {
+                let html = '';
+                // Create a long strip of symbols
+                for (let i = 0; i < 30; i++) {
+                    html += `<div class="symbol">${symbols[Math.floor(Math.random() * symbols.length)]}</div>`;
+                }
+                reel.innerHTML = html;
+            });
+        }
+
+        async function spinSlots() {
+            if (spins <= 0) {
+                alert("Acabaram os giros de hoje! Volta amanhã.");
+                return;
+            }
+
+            const lever = document.querySelector('.lever');
+            lever.classList.add('pulled');
+            setTimeout(() => lever.classList.remove('pulled'), 500);
+
+            spins--;
+            document.getElementById('spins-left').innerText = spins;
+
+            // Randomize stop positions
+            const r1 = Math.floor(Math.random() * 20) + 5;
+            const r2 = Math.floor(Math.random() * 20) + 5;
+            const r3 = Math.floor(Math.random() * 20) + 5;
+
+            // Animate
+            const symbolHeight = 130;
+            reel1.style.transform = `translateY(-${r1 * symbolHeight}px)`;
+
+            // Staggered stop
+            setTimeout(() => { reel2.style.transform = `translateY(-${r2 * symbolHeight}px)`; }, 500);
+            setTimeout(() => { reel3.style.transform = `translateY(-${r3 * symbolHeight}px)`; }, 1000); // Last reel stops later
+
+            // Check win (simulated)
+            setTimeout(() => {
+                // Just random playful alert
+                const messages = ["Quase!", "Giro Fantástico!", "Parabéns!", "Tenta outra vez!"];
+                console.log(messages[Math.floor(Math.random() * messages.length)]);
+            }, 2000);
+        }
+
+        // WHEEL LOGIC
+        let currentRotation = 0;
+        function spinWheel() {
+            const wheel = document.getElementById('wheel');
+            const spins = Math.floor(Math.random() * 5) + 5; // 5 to 10 full spins
+            const degrees = Math.floor(Math.random() * 360);
+
+            currentRotation += (spins * 360) + degrees;
+            wheel.style.transform = `rotate(${currentRotation}deg)`;
+        }
+
+        // Initialize
+        initDigitalReels();
+    </script>
+    <!-- 18+ & COOKIE MODAL -->
+    <div id="ageModal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-icon">🔞</div>
+            <h2>Confirmação de Idade & Cookies</h2>
+            <p>Este site contém conteúdo relacionado com jogos de casino social. Para aceder, deves ter idade legal
+                (18+).</p>
+            <p style="font-size: 0.9rem; color: #94A3B8; margin-bottom: 2rem;">
+                Utilizamos cookies para melhorar a tua experiência. Ao entrar, aceitas a nossa Política de Privacidade.
+            </p>
+
+            <div class="modal-actions">
+                <button class="btn btn-primary" onclick="acceptAge()">SOU MAIOR DE 18 ANOS</button>
+                <button class="btn btn-secondary" onclick="rejectAge()">SAIR</button>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: #1E293B;
+            border: 2px solid var(--primary);
+            padding: 3rem;
+            border-radius: 20px;
+            text-align: center;
+            max-width: 500px;
+            box-shadow: 0 0 50px rgba(139, 92, 246, 0.3);
+            animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .modal-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+
+        .modal-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        @keyframes popIn {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+    </style>
+
+    <script>
+        // Age Verification Logic
+        document.addEventListener('DOMContentLoaded', function () {
+            const modal = document.getElementById('ageModal');
+            // Check if previously accepted
+            if (localStorage.getItem('ageConfirmed') === 'true') {
+                if (modal) {
+                    modal.style.display = 'none';
+                }
+            }
+        });
+
+        function acceptAge() {
+            localStorage.setItem('ageConfirmed', 'true');
+            const modal = document.getElementById('ageModal');
+            if (modal) {
+                modal.style.opacity = '0';
+                setTimeout(() => {
+                    modal.style.display = 'none';
+                }, 500);
+            }
+        }
+
+        function rejectAge() {
+            window.location.href = 'https://www.google.com';
+        }
+    </script>
+
+    <script>
+        // Use existing script logic if present or add new
+        // ... (preserving original script context if useful, but just appending mostly)
+    </script>
+
+    <script>
+        // Search functionality in header
+        document.addEventListener('DOMContentLoaded', function () {
+            const searchInput = document.querySelector('.search-bar input');
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function (e) {
+                    if (e.key === 'Enter') {
+                        const query = this.value.trim();
+                        if (query) {
+                            window.location.href = `games.html?search=${encodeURIComponent(query)}`;
+                        }
+                    }
+                });
+            }
+        });
+
+        // Mobile Menu Toggle
+        const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+        const mainNav = document.getElementById('mainNav');
+
+        if (mobileMenuToggle && mainNav) {
+            mobileMenuToggle.addEventListener('click', function (e) {
+                e.stopPropagation();
+                mainNav.classList.toggle('mobile-open');
+            });
+
+            // Close menu when clicking outside
+            document.addEventListener('click', function (event) {
+                if (!mainNav.contains(event.target) && !mobileMenuToggle.contains(event.target)) {
+                    mainNav.classList.remove('mobile-open');
+                }
+            });
+
+            // Close menu when clicking on nav links
+            const navLinks = mainNav.querySelectorAll('.nav-link, .dropdown-menu a');
+            navLinks.forEach(link => {
+                link.addEventListener('click', function () {
+                    mainNav.classList.remove('mobile-open');
+                });
+            });
+        }
+    </script>
+
+    <!-- Chatbot Script -->
+    <script src="chatbot.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comunidade & Fórum | DemoSlots.pt</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <style>
+        /* CORE CSS REUSE */
+        :root {
+            --primary: #8B5CF6;
+            --secondary: #EC4899;
+            --accent: #F59E0B;
+            --success: #10B981;
+            --dark-bg: #0F172A;
+            --dark-card: #1E293B;
+            --text-light: #F8FAFC;
+            --text-dim: #94A3B8;
+            --border: rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: var(--dark-bg);
+            color: var(--text-light);
+            overflow-x: hidden;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: 0.3s;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .flex {
+            display: flex;
+        }
+
+        .grid {
+            display: grid;
+        }
+
+        .items-center {
+            align-items: center;
+        }
+
+        .justify-between {
+            justify-content: space-between;
+        }
+
+        .gap-4 {
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 10px 24px;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            border: none;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid var(--border);
+        }
+
+        .text-accent {
+            color: var(--accent);
+        }
+
+        .text-dim {
+            color: var(--text-dim);
+        }
+
+        .text-secondary {
+            color: var(--secondary);
+        }
+
+        /* HEADER REUSE */
+        header {
+            position: relative;
+            z-index: 1000;
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 0;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: linear-gradient(to right, #8B5CF6, #EC4899, #F59E0B);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-link {
+            font-weight: 500;
+            color: var(--text-dim);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: white;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        /* Dropdown Menu */
+        .nav-dropdown {
+            position: relative;
+        }
+
+        .nav-dropdown>.nav-link {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .nav-dropdown>.nav-link::after {
+            content: '▼';
+            font-size: 0.7rem;
+            transition: transform 0.3s;
+        }
+
+        .nav-dropdown:hover>.nav-link::after {
+            transform: rotate(180deg);
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: var(--dark-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            min-width: 200px;
+            padding: 0.5rem 0;
+            margin-top: 0.5rem;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+        }
+
+        .nav-dropdown:hover .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-menu a {
+            display: block;
+            padding: 0.75rem 1.5rem;
+            color: var(--text-dim);
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .dropdown-menu a:hover {
+            color: white;
+            background: rgba(255, 255, 255, 0.05);
+            padding-left: 2rem;
+        }
+
+        /* Mobile Menu Toggle */
+        .mobile-menu-toggle {
+            display: none;
+            background: transparent;
+            border: 1px solid var(--border);
+            color: white;
+            padding: 0.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.5rem;
+        }
+
+        .mobile-menu-toggle:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        header .container {
+            position: relative;
+        }
+
+        .search-bar {
+            background: var(--dark-card);
+            border: 1px solid var(--border);
+            border-radius: 50px;
+            padding: 0.5rem 1rem;
+            display: flex;
+            align-items: center;
+            width: 200px;
+        }
+
+        .search-bar input {
+            background: transparent;
+            border: none;
+            color: white;
+            outline: none;
+            width: 100%;
+        }
+
+        .text-secondary {
+            color: var(--secondary);
+        }
+
+        .gap-2 {
+            gap: 0.5rem;
+        }
+
+        /* COMMUNITY SPECIFIC */
+        .forum-header {
+            background: linear-gradient(to right, #2D1B69, #4C1D95);
+            padding: 3rem 0;
+            margin-bottom: 3rem;
+            border-radius: 0 0 20px 20px;
+        }
+
+        .topic-list {
+            background: var(--dark-card);
+            border-radius: 12px;
+            border: 1px solid var(--border);
+        }
+
+        .topic-item {
+            display: flex;
+            gap: 1.5rem;
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--border);
+            transition: 0.2s;
+        }
+
+        .topic-item:hover {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .topic-item:last-child {
+            border-bottom: none;
+        }
+
+        .topic-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: #ddd;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .topic-stats {
+            margin-left: auto;
+            display: flex;
+            gap: 2rem;
+            color: var(--text-dim);
+            font-size: 0.9rem;
+            align-items: center;
+        }
+
+        .top-contributors {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 2rem;
+            border-radius: 16px;
+        }
+
+        .contributor-card {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        /* Footer Reuse */
+        footer {
+            background: #020617;
+            padding: 4rem 0 0 0;
+            margin-top: 4rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 4rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-title {
+            color: white;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            display: block;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-links a {
+            color: var(--text-dim);
+        }
+
+        .footer-links a:hover {
+            color: var(--primary);
+        }
+
+        .copyright-bar {
+            background: #000;
+            padding: 1.5rem 0;
+            text-align: center;
+            color: #64748B;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .footer-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .mobile-menu-toggle {
+                display: block;
+            }
+
+            nav {
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: var(--dark-card);
+                border-bottom: 1px solid var(--border);
+                flex-direction: column;
+                padding: 1rem;
+                opacity: 0;
+                visibility: hidden;
+                transform: translateY(-20px);
+                transition: all 0.3s;
+                max-height: 0;
+                overflow: hidden;
+            }
+
+            nav.mobile-open {
+                opacity: 1;
+                visibility: visible;
+                transform: translateY(0);
+                max-height: 500px;
+            }
+
+            .nav-link {
+                display: block;
+                width: 100%;
+                padding: 0.75rem 1rem;
+            }
+
+            .nav-dropdown>.nav-link {
+                justify-content: space-between;
+            }
+
+            .dropdown-menu {
+                position: static;
+                opacity: 1;
+                visibility: visible;
+                transform: none;
+                box-shadow: none;
+                border: none;
+                border-top: 1px solid var(--border);
+                border-radius: 0;
+                margin-top: 0;
+                background: rgba(0, 0, 0, 0.3);
+            }
+
+            .search-bar {
+                width: 100%;
+                margin: 0.5rem 0;
+            }
+
+            header .container {
+                flex-wrap: wrap;
+                gap: 1rem;
+            }
+
+            .logo {
+                font-size: 1.2rem;
+                flex: 1;
+                min-width: 0;
+            }
+
+            .logo span {
+                font-size: 1.5rem !important;
+            }
+
+            .mobile-menu-toggle {
+                order: 2;
+            }
+
+            .header-right {
+                order: 3;
+                width: 100%;
+                display: flex;
+                gap: 0.5rem;
+                margin-top: 0;
+            }
+
+            .search-bar {
+                flex: 1;
+                min-width: 0;
+                width: auto;
+                margin: 0;
+            }
+
+            .search-bar input {
+                font-size: 0.85rem;
+                padding: 0.5rem 0.75rem;
+            }
+
+            .header-right .btn {
+                padding: 8px 12px;
+                font-size: 0.85rem;
+                white-space: nowrap;
+            }
+
+            .header-right .btn span {
+                display: none;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .logo {
+                font-size: 1rem;
+            }
+
+            .header-right {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .search-bar {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- HEADER -->
+    <header>
+        <div class="container flex justify-between items-center">
+            <a href="index.html" class="logo">
+                <img src="images/logo.svg" alt="DemoSlots" height="50">
+            </a>
+            <button class="mobile-menu-toggle" id="mobileMenuToggle">☰</button>
+
+            <nav class="flex gap-2" id="mainNav">
+                <a href="index.html" class="nav-link">Início</a>
+
+                <div class="nav-dropdown">
+                    <a href="rankings.html" class="nav-link">Plataformas</a>
+                    <div class="dropdown-menu">
+                        <a href="rankings.html">Top Sites</a>
+                        <a href="novos-casinos.html">Novos Casinos</a>
+                        <a href="mobile-apps.html">Mobile Apps</a>
+                    </div>
+                </div>
+
+                <div class="nav-dropdown">
+                    <a href="games.html" class="nav-link">Jogos</a>
+                    <div class="dropdown-menu">
+                        <a href="games.html">Todos Jogos</a>
+                        <a href="providers.html">Providers</a>
+                    </div>
+                </div>
+
+                <a href="bonuses.html" class="nav-link">Bónus</a>
+
+                <div class="nav-dropdown">
+                    <a href="community.html" class="nav-link active">Comunidade</a>
+                    <div class="dropdown-menu">
+                        <a href="tournaments.html">Torneios</a>
+                        <a href="community.html" class="active">Fórum</a>
+                        <a href="profile.html">Leaderboards</a>
+                    </div>
+                </div>
+            </nav>
+
+            <div class="flex gap-4 items-center header-right">
+                <div class="search-bar">
+                    <span style="margin-right: 8px;">🔍</span>
+                    <input type="text" placeholder="Procurar...">
+                </div>
+                <a href="profile.html" class="btn btn-secondary" style="padding: 8px 16px;">
+                    👤 <span style="font-size: 0.9rem;">Perfil</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <div class="forum-header">
+        <div class="container flex justify-between items-center">
+            <div>
+                <h1>💬 Fórum da Comunidade</h1>
+                <p class="text-dim">Discute estratégias, partilha vitórias e faz amigos.</p>
+            </div>
+            <button class="btn btn-primary">✏️ Novo Tópico</button>
+        </div>
+    </div>
+
+    <div class="container grid" style="grid-template-columns: 2fr 1fr; gap: 3rem;">
+
+        <!-- TOPICS -->
+        <div class="topic-list">
+
+            <div class="topic-item">
+                <div class="topic-avatar" style="background: #10B981;">👨‍💻</div>
+                <div>
+                    <h3 style="margin-bottom: 5px;">Dica para o torneio de hoje?</h3>
+                    <p class="text-dim" style="font-size: 0.9rem;">Por João★Lisboa • Há 15 min</p>
+                </div>
+                <div class="topic-stats">
+                    <span>💬 12</span>
+                    <span>🔥 54</span>
+                </div>
+            </div>
+
+            <div class="topic-item">
+                <div class="topic-avatar" style="background: #EC4899;">👩</div>
+                <div>
+                    <h3 style="margin-bottom: 5px;">LuckySpins vs FortunaPlay - Qual o melhor?</h3>
+                    <p class="text-dim" style="font-size: 0.9rem;">Por Maria_Porto • Há 1 hora</p>
+                </div>
+                <div class="topic-stats">
+                    <span>💬 45</span>
+                    <span>🔥 120</span>
+                </div>
+            </div>
+
+            <div class="topic-item">
+                <div class="topic-avatar" style="background: #F59E0B;">👑</div>
+                <div>
+                    <h3 style="margin-bottom: 5px;">[GUIA] Como maximizar os Free Spins</h3>
+                    <p class="text-dim" style="font-size: 0.9rem;">Por Admin • Fixado</p>
+                </div>
+                <div class="topic-stats">
+                    <span>💬 230</span>
+                    <span>🔥 5.2k</span>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- SIDEBAR -->
+        <aside>
+            <div class="top-contributors">
+                <h3 style="margin-bottom: 1.5rem;">🏆 Top Contribuidores</h3>
+
+                <div class="contributor-card">
+                    <div class="topic-avatar">🥇</div>
+                    <div>
+                        <h4>João★Lisboa</h4>
+                        <span class="text-dim">1,245 posts</span>
+                    </div>
+                </div>
+
+                <div class="contributor-card">
+                    <div class="topic-avatar">🥈</div>
+                    <div>
+                        <h4>Pedro_Faro</h4>
+                        <span class="text-dim">980 posts</span>
+                    </div>
+                </div>
+
+                <div class="contributor-card">
+                    <div class="topic-avatar">🥉</div>
+                    <div>
+                        <h4>Ana_Coimbra</h4>
+                        <span class="text-dim">856 posts</span>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div>
+                    <div class="logo" style="margin-bottom: 1rem;">
+                        <a href="index.html" style="text-decoration:none;">
+                            <img src="images/logo.svg" alt="DemoSlots" height="50">
+                        </a>
+                    </div>
+                    <p class="text-dim" style="line-height: 1.6;">
+                        O teu destino #1 para slots demo em Portugal. Plataforma 100% social e gratuita para
+                        entretenimento.
+                    </p>
+                </div>
+
+                <div>
+                    <span class="footer-title">Plataformas</span>
+                    <ul class="footer-links">
+                        <li><a href="rankings.html">Top Rated</a></li>
+                        <li><a href="novos-casinos.html">Novos Casinos</a></li>
+                        <li><a href="mobile-apps.html">Mobile Apps</a></li>
+                        <li><a href="#">Sem Registo</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <span class="footer-title">Comunidade</span>
+                    <ul class="footer-links">
+                        <li><a href="tournaments.html">Torneios</a></li>
+                        <li><a href="profile.html">Leaderboards</a></li>
+                        <li><a href="community.html">Fórum</a></li>
+                        <li><a href="news.html">Blog</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <span class="footer-title">Informação</span>
+                    <ul class="footer-links">
+                        <li><a href="about.html">Sobre Nós</a></li>
+                        <li><a href="contact.html">Contacto</a></li>
+                        <li><a href="responsible-gaming.html">Jogo Responsável</a></li>
+                        <li><a href="#">Termos e Condições</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="copyright-bar">
+                © 2025 DemoSlots.pt - Todos os direitos reservados. 18+ | Joga Responsavelmente.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Community Search
+        document.addEventListener('DOMContentLoaded', function () {
+            const searchInput = document.querySelector('.search-bar input');
+            const topicCards = document.querySelectorAll('[class*="topic"], [class*="forum"], [class*="post"]');
+
+            if (searchInput && topicCards.length > 0) {
+                searchInput.addEventListener('input', function (e) {
+                    const query = e.target.value.toLowerCase();
+                    topicCards.forEach(card => {
+                        const text = card.textContent.toLowerCase();
+                        if (text.includes(query)) {
+                            card.style.display = '';
+                        } else {
+                            card.style.display = query === '' ? '' : 'none';
+                        }
+                    });
+                });
+            }
+        });
+
+        // Search functionality in header
+        document.addEventListener('DOMContentLoaded', function () {
+            const searchInput = document.querySelector('.search-bar input');
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function (e) {
+                    if (e.key === 'Enter') {
+                        const query = this.value.trim();
+                        if (query) {
+                            window.location.href = `games.html?search=${encodeURIComponent(query)}`;
+                        }
+                    }
+                });
+            }
+        });
+
+        // Mobile Menu Toggle
+        const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+        const mainNav = document.getElementById('mainNav');
+
+        if (mobileMenuToggle && mainNav) {
+            mobileMenuToggle.addEventListener('click', function () {
+                mainNav.classList.toggle('mobile-open');
+            });
+
+            // Close menu when clicking outside
+            document.addEventListener('click', function (event) {
+                if (!mainNav.contains(event.target) && !mobileMenuToggle.contains(event.target)) {
+                    mainNav.classList.remove('mobile-open');
+                }
+            });
+        }
+    </script>
+
+    <!-- Chatbot Script -->
+    <script src="chatbot.js"></script>
+</body>
+
+</html>

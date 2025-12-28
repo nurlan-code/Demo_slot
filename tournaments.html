@@ -1,0 +1,957 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Torneios Ativos | DemoSlots.pt</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <style>
+        /* CORE CSS REUSE */
+        :root {
+            --primary: #8B5CF6;
+            --secondary: #EC4899;
+            --accent: #F59E0B;
+            --success: #10B981;
+            --dark-bg: #0F172A;
+            --dark-card: #1E293B;
+            --text-light: #F8FAFC;
+            --text-dim: #94A3B8;
+            --border: rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: var(--dark-bg);
+            color: var(--text-light);
+            overflow-x: hidden;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: 0.3s;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .flex {
+            display: flex;
+        }
+
+        .grid {
+            display: grid;
+        }
+
+        .items-center {
+            align-items: center;
+        }
+
+        .justify-between {
+            justify-content: space-between;
+        }
+
+        .gap-4 {
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 10px 24px;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            border: none;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid var(--border);
+        }
+
+        .text-accent {
+            color: var(--accent);
+        }
+
+        .text-dim {
+            color: var(--text-dim);
+        }
+
+        .text-secondary {
+            color: var(--secondary);
+        }
+
+        /* HEADER REUSE */
+        header {
+            position: relative;
+            z-index: 1000;
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 0;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: linear-gradient(to right, #8B5CF6, #EC4899, #F59E0B);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-link {
+            font-weight: 500;
+            color: var(--text-dim);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: white;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        /* Dropdown Menu */
+        .nav-dropdown {
+            position: relative;
+        }
+
+        .nav-dropdown>.nav-link {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .nav-dropdown>.nav-link::after {
+            content: '▼';
+            font-size: 0.7rem;
+            transition: transform 0.3s;
+        }
+
+        .nav-dropdown:hover>.nav-link::after {
+            transform: rotate(180deg);
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: var(--dark-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            min-width: 200px;
+            padding: 0.5rem 0;
+            margin-top: 0.5rem;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+        }
+
+        .nav-dropdown:hover .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-menu a {
+            display: block;
+            padding: 0.75rem 1.5rem;
+            color: var(--text-dim);
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .dropdown-menu a:hover {
+            color: white;
+            background: rgba(255, 255, 255, 0.05);
+            padding-left: 2rem;
+        }
+
+        /* Mobile Menu Toggle */
+        .mobile-menu-toggle {
+            display: none;
+            background: transparent;
+            border: 1px solid var(--border);
+            color: white;
+            padding: 0.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.5rem;
+        }
+
+        .mobile-menu-toggle:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        header .container {
+            position: relative;
+        }
+
+        .search-bar {
+            background: var(--dark-card);
+            border: 1px solid var(--border);
+            border-radius: 50px;
+            padding: 0.5rem 1rem;
+            display: flex;
+            align-items: center;
+            width: 200px;
+        }
+
+        .search-bar input {
+            background: transparent;
+            border: none;
+            color: white;
+            outline: none;
+            width: 100%;
+        }
+
+        .text-secondary {
+            color: var(--secondary);
+        }
+
+        .gap-2 {
+            gap: 0.5rem;
+        }
+
+        /* TOURNAMENT SPECIFIC */
+        .tournament-hero {
+            text-align: center;
+            padding: 4rem 0;
+            background: radial-gradient(circle at center, rgba(139, 92, 246, 0.2), transparent);
+        }
+
+        .mega-tournament {
+            background: linear-gradient(180deg, #2D1B69, #1E1B4B);
+            border: 2px solid var(--accent);
+            border-radius: 20px;
+            padding: 2rem;
+            margin: 2rem 0 4rem 0;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 0 30px rgba(245, 158, 11, 0.15);
+        }
+
+        .mega-badge {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: var(--accent);
+            color: black;
+            font-weight: 800;
+            padding: 5px 15px;
+            border-radius: 5px;
+            transform: rotate(5deg);
+        }
+
+        .countdown-timer {
+            font-size: 2rem;
+            font-family: monospace;
+            font-weight: 700;
+            color: var(--secondary);
+            margin: 1rem 0;
+            background: rgba(0, 0, 0, 0.3);
+            display: inline-block;
+            padding: 10px 20px;
+            border-radius: 8px;
+        }
+
+        .leaderboard-preview {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 1rem;
+            margin-top: 2rem;
+        }
+
+        .lb-row {
+            display: grid;
+            grid-template-columns: 50px 1fr 100px;
+            padding: 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            align-items: center;
+        }
+
+        .lb-rank {
+            font-weight: 700;
+            color: var(--accent);
+        }
+
+        .lb-score {
+            font-family: monospace;
+        }
+
+        .tournament-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .tourney-card {
+            background: var(--dark-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            overflow: hidden;
+            transition: 0.3s;
+        }
+
+        .tourney-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+        }
+
+        .tourney-header {
+            padding: 1.5rem;
+            background: rgba(255, 255, 255, 0.02);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .tourney-body {
+            padding: 1.5rem;
+        }
+
+        .tourney-tag {
+            font-size: 0.8rem;
+            padding: 4px 8px;
+            border-radius: 4px;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .progress-sm {
+            height: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+            margin: 10px 0;
+            overflow: hidden;
+        }
+
+        .progress-sm-fill {
+            height: 100%;
+            background: var(--success);
+        }
+
+        /* FOOTER */
+        footer {
+            background: #020617;
+            padding: 4rem 0 0 0;
+            margin-top: 4rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 4rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-title {
+            color: white;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            display: block;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-links a {
+            color: var(--text-dim);
+        }
+
+        .footer-links a:hover {
+            color: var(--primary);
+        }
+
+        .copyright-bar {
+            background: #000;
+            padding: 1.5rem 0;
+            text-align: center;
+            color: #64748B;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .footer-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .mobile-menu-toggle {
+                display: block;
+            }
+
+            nav {
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: var(--dark-card);
+                border-bottom: 1px solid var(--border);
+                flex-direction: column;
+                padding: 1rem;
+                opacity: 0;
+                visibility: hidden;
+                transform: translateY(-20px);
+                transition: all 0.3s;
+                max-height: 0;
+                overflow: hidden;
+            }
+
+            nav.mobile-open {
+                opacity: 1;
+                visibility: visible;
+                transform: translateY(0);
+                max-height: 500px;
+            }
+
+            .nav-link {
+                display: block;
+                width: 100%;
+                padding: 0.75rem 1rem;
+            }
+
+            .nav-dropdown>.nav-link {
+                justify-content: space-between;
+            }
+
+            .dropdown-menu {
+                position: static;
+                opacity: 1;
+                visibility: visible;
+                transform: none;
+                box-shadow: none;
+                border: none;
+                border-top: 1px solid var(--border);
+                border-radius: 0;
+                margin-top: 0;
+                background: rgba(0, 0, 0, 0.3);
+            }
+
+            .search-bar {
+                width: 100%;
+                margin: 0.5rem 0;
+            }
+
+            header .container {
+                flex-wrap: wrap;
+                gap: 1rem;
+            }
+
+            .logo {
+                font-size: 1.2rem;
+                flex: 1;
+                min-width: 0;
+            }
+
+            .logo span {
+                font-size: 1.5rem !important;
+            }
+
+            .mobile-menu-toggle {
+                order: 2;
+            }
+
+            .header-right {
+                order: 3;
+                width: 100%;
+                display: flex;
+                gap: 0.5rem;
+                margin-top: 0;
+            }
+
+            .search-bar {
+                flex: 1;
+                min-width: 0;
+                width: auto;
+                margin: 0;
+            }
+
+            .search-bar input {
+                font-size: 0.85rem;
+                padding: 0.5rem 0.75rem;
+            }
+
+            .header-right .btn {
+                padding: 8px 12px;
+                font-size: 0.85rem;
+                white-space: nowrap;
+            }
+
+            .header-right .btn span {
+                display: none;
+            }
+        }
+
+        /* Desktop (992px - 1024px) */
+        @media (max-width: 1024px) {
+            .container {
+                padding: 0 16px;
+            }
+        }
+
+        /* Small Desktop / Large Tablet (768px - 992px) */
+        @media (max-width: 992px) {
+            .page-hero {
+                padding: 3rem 0;
+            }
+
+            .page-hero h1 {
+                font-size: 2rem;
+            }
+        }
+
+        /* Tablet (576px - 768px) */
+        @media (max-width: 768px) {
+            .page-hero {
+                padding: 2.5rem 0;
+            }
+
+            .page-hero h1 {
+                font-size: 1.75rem;
+            }
+
+            .tournament-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Small Tablet / Large Phone (480px - 576px) */
+        @media (max-width: 576px) {
+            .container {
+                padding: 0 12px;
+            }
+
+            .page-hero {
+                padding: 2rem 0;
+            }
+
+            .page-hero h1 {
+                font-size: 1.5rem;
+            }
+        }
+
+        /* Small Phone (320px - 480px) */
+        @media (max-width: 480px) {
+            .container {
+                padding: 0 10px;
+            }
+
+            .logo {
+                font-size: 1rem;
+            }
+
+            .logo span {
+                font-size: 1.2rem !important;
+            }
+
+            .header-right {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .search-bar {
+                width: 100%;
+            }
+
+            .page-hero {
+                padding: 1.5rem 0;
+            }
+
+            .page-hero h1 {
+                font-size: 1.35rem;
+            }
+        }
+
+        /* Extra Small Phone (320px and below) */
+        @media (max-width: 320px) {
+            .container {
+                padding: 0 8px;
+            }
+
+            .page-hero h1 {
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- HEADER -->
+    <header>
+        <div class="container flex justify-between items-center">
+            <a href="index.html" class="logo">
+                <img src="images/logo.svg" alt="DemoSlots" height="50">
+            </a>
+            <button class="mobile-menu-toggle" id="mobileMenuToggle">☰</button>
+
+            <nav class="flex gap-2" id="mainNav">
+                <a href="index.html" class="nav-link">Início</a>
+
+                <div class="nav-dropdown">
+                    <a href="rankings.html" class="nav-link">Plataformas</a>
+                    <div class="dropdown-menu">
+                        <a href="rankings.html">Top Sites</a>
+                        <a href="novos-casinos.html">Novos Casinos</a>
+                        <a href="mobile-apps.html">Mobile Apps</a>
+                    </div>
+                </div>
+
+                <div class="nav-dropdown">
+                    <a href="games.html" class="nav-link">Jogos</a>
+                    <div class="dropdown-menu">
+                        <a href="games.html">Todos Jogos</a>
+                        <a href="providers.html">Providers</a>
+                    </div>
+                </div>
+
+                <a href="bonuses.html" class="nav-link">Bónus</a>
+
+                <div class="nav-dropdown">
+                    <a href="community.html" class="nav-link active">Comunidade</a>
+                    <div class="dropdown-menu">
+                        <a href="tournaments.html" class="active">Torneios</a>
+                        <a href="community.html">Fórum</a>
+                        <a href="profile.html">Leaderboards</a>
+                    </div>
+                </div>
+            </nav>
+
+            <div class="flex gap-4 items-center header-right">
+                <div class="search-bar">
+                    <span style="margin-right: 8px;">🔍</span>
+                    <input type="text" placeholder="Procurar...">
+                </div>
+                <a href="profile.html" class="btn btn-secondary" style="padding: 8px 16px;">
+                    👤 <span style="font-size: 0.9rem;">Perfil</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+
+        <!-- HERO -->
+        <div class="tournament-hero">
+            <h1>🏆 Competições & Torneios</h1>
+            <p class="text-dim">Ganha fama, badge e moedas virtuais. A participação é 100% gratuita.</p>
+        </div>
+
+        <!-- FEATURED EVENT -->
+        <div class="mega-tournament">
+            <div class="mega-badge">EVENTO PRINCIPAL</div>
+            <div class="grid" style="grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center;">
+                <div>
+                    <h2 style="font-size: 2.5rem; color: #F59E0B; margin-bottom: 1rem;">MEGA SLOTS CHAMPIONSHIP</h2>
+                    <p class="text-dim">O maior evento do mês! Joga qual slot elegível e acumula pontos por cada
+                        multiplicador acima de 20x.</p>
+
+                    <div style="margin: 2rem 0;">
+                        <span class="text-dim">Termina em:</span>
+                        <div class="countdown-timer">02d : 14h : 35m</div>
+                    </div>
+
+                    <div class="flex gap-4">
+                        <button class="btn btn-primary" style="padding: 15px 40px; font-size: 1.2rem;">🎮 PARTICIPAR
+                            AGORA</button>
+                        <button class="btn btn-secondary">ℹ️ Regras</button>
+                    </div>
+                </div>
+
+                <div class="leaderboard-preview">
+                    <h3 style="margin-bottom: 1rem; border-bottom: 1px solid var(--border); padding-bottom: 10px;">Top 5
+                        Atual</h3>
+                    <div class="lb-row">
+                        <span class="lb-rank">🥇</span>
+                        <span>João★Lisboa</span>
+                        <span class="lb-score">245k</span>
+                    </div>
+                    <div class="lb-row">
+                        <span class="lb-rank">🥈</span>
+                        <span>Maria_Porto</span>
+                        <span class="lb-score">198k</span>
+                    </div>
+                    <div class="lb-row">
+                        <span class="lb-rank">🥉</span>
+                        <span>Pedro_Faro</span>
+                        <span class="lb-score">187k</span>
+                    </div>
+                    <div class="lb-row">
+                        <span class="lb-rank">4</span>
+                        <span>Ana★Coimbra</span>
+                        <span class="lb-score">165k</span>
+                    </div>
+                    <div class="lb-row">
+                        <span class="lb-rank" style="color: var(--text-dim);">87</span>
+                        <span style="color: var(--text-dim);">(Tu)</span>
+                        <span class="lb-score" style="color: var(--text-dim);">52k</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ACTIVE GRID -->
+        <h2 style="margin-bottom: 2rem;">🎯 Torneios Ativos</h2>
+        <div class="tournament-grid">
+
+            <!-- Card 1 -->
+            <div class="tourney-card">
+                <div class="tourney-header">
+                    <div>
+                        <div class="tourney-tag">DIÁRIO</div>
+                        <h3 style="margin-top: 5px;">Blackjack Masters</h3>
+                    </div>
+                    <span style="font-size: 2rem;">🃏</span>
+                </div>
+                <div class="tourney-body">
+                    <div class="flex justify-between text-dim" style="font-size: 0.9rem;">
+                        <span>Entrada: Grátis</span>
+                        <span>Prémio: 500k Coins</span>
+                    </div>
+                    <div style="margin-top: 1rem;">
+                        <div class="flex justify-between" style="font-size: 0.8rem;">
+                            <span>Participantes: 1,234</span>
+                            <span>Cap: 2,000</span>
+                        </div>
+                        <div class="progress-sm">
+                            <div class="progress-sm-fill" style="width: 60%;"></div>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary"
+                        style="width: 100%; margin-top: 1rem; justify-content: center;">Entrar</button>
+                </div>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="tourney-card">
+                <div class="tourney-header">
+                    <div>
+                        <div class="tourney-tag" style="background: #EC4899; color: white;">SEMANAL</div>
+                        <h3 style="margin-top: 5px;">Roulette Rush</h3>
+                    </div>
+                    <span style="font-size: 2rem;">🎡</span>
+                </div>
+                <div class="tourney-body">
+                    <div class="flex justify-between text-dim" style="font-size: 0.9rem;">
+                        <span>Entrada: VIP Lvl 2</span>
+                        <span>Prémio: 250k Coins</span>
+                    </div>
+                    <div style="margin-top: 1rem;">
+                        <div class="flex justify-between" style="font-size: 0.8rem;">
+                            <span>Participantes: 567</span>
+                            <span>Cap: 1,000</span>
+                        </div>
+                        <div class="progress-sm">
+                            <div class="progress-sm-fill" style="width: 50%;"></div>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary"
+                        style="width: 100%; margin-top: 1rem; justify-content: center;">Entrar</button>
+                </div>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="tourney-card">
+                <div class="tourney-header">
+                    <div>
+                        <div class="tourney-tag" style="background: #10B981; color: black;">INICIANTES</div>
+                        <h3 style="margin-top: 5px;">Slots Starter</h3>
+                    </div>
+                    <span style="font-size: 2rem;">🎰</span>
+                </div>
+                <div class="tourney-body">
+                    <div class="flex justify-between text-dim" style="font-size: 0.9rem;">
+                        <span>Entrada: < Lvl 5</span>
+                                <span>Prémio: 100k Coins</span>
+                    </div>
+                    <div style="margin-top: 1rem;">
+                        <div class="flex justify-between" style="font-size: 0.8rem;">
+                            <span>Participantes: 200</span>
+                            <span>Cap: 5,000</span>
+                        </div>
+                        <div class="progress-sm">
+                            <div class="progress-sm-fill" style="width: 10%;"></div>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary"
+                        style="width: 100%; margin-top: 1rem; justify-content: center;">Entrar</button>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div>
+                    <div class="logo" style="margin-bottom: 1rem;">
+                        <a href="index.html" style="text-decoration:none;">
+                            <img src="images/logo.svg" alt="DemoSlots" height="50">
+                        </a>
+                    </div>
+                    <p class="text-dim" style="line-height: 1.6;">
+                        O teu destino #1 para slots demo em Portugal. Plataforma 100% social e gratuita para
+                        entretenimento.
+                    </p>
+                </div>
+
+                <div>
+                    <span class="footer-title">Plataformas</span>
+                    <ul class="footer-links">
+                        <li><a href="rankings.html">Top Rated</a></li>
+                        <li><a href="novos-casinos.html">Novos Casinos</a></li>
+                        <li><a href="mobile-apps.html">Mobile Apps</a></li>
+                        <li><a href="#">Sem Registo</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <span class="footer-title">Comunidade</span>
+                    <ul class="footer-links">
+                        <li><a href="tournaments.html">Torneios</a></li>
+                        <li><a href="profile.html">Leaderboards</a></li>
+                        <li><a href="community.html">Fórum</a></li>
+                        <li><a href="news.html">Blog</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <span class="footer-title">Informação</span>
+                    <ul class="footer-links">
+                        <li><a href="about.html">Sobre Nós</a></li>
+                        <li><a href="contact.html">Contacto</a></li>
+                        <li><a href="responsible-gaming.html">Jogo Responsável</a></li>
+                        <li><a href="#">Termos e Condições</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="copyright-bar">
+                © 2025 DemoSlots.pt - Todos os direitos reservados. 18+ | Joga Responsavelmente.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Countdown Timer Function
+        function updateCountdown(element, endDate) {
+            const now = new Date().getTime();
+            const distance = endDate - now;
+
+            if (distance < 0) {
+                element.textContent = "Terminado";
+                return;
+            }
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            element.textContent = `${String(days).padStart(2, '0')}d : ${String(hours).padStart(2, '0')}h : ${String(minutes).padStart(2, '0')}m : ${String(seconds).padStart(2, '0')}s`;
+        }
+
+        // Initialize countdowns
+        document.addEventListener('DOMContentLoaded', function () {
+            const countdownElements = document.querySelectorAll('.countdown-timer');
+            const endDates = [];
+
+            countdownElements.forEach((el, index) => {
+                // Set end dates: 2 days, 5 days, 3 days from now
+                const days = [2, 5, 3];
+                const endDate = new Date();
+                endDate.setDate(endDate.getDate() + days[index] || 2);
+                endDate.setHours(endDate.getHours() + (index * 2) || 0);
+                endDates.push(endDate.getTime());
+
+                // Update immediately
+                updateCountdown(el, endDate.getTime());
+            });
+
+            // Update every second
+            setInterval(function () {
+                countdownElements.forEach((el, index) => {
+                    if (endDates[index]) {
+                        updateCountdown(el, endDates[index]);
+                    }
+                });
+            }, 1000);
+        });
+
+        // Search functionality in header
+        document.addEventListener('DOMContentLoaded', function () {
+            const searchInput = document.querySelector('.search-bar input');
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function (e) {
+                    if (e.key === 'Enter') {
+                        const query = this.value.trim();
+                        if (query) {
+                            window.location.href = `games.html?search=${encodeURIComponent(query)}`;
+                        }
+                    }
+                });
+            }
+        });
+
+        // Mobile Menu Toggle
+        const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+        const mainNav = document.getElementById('mainNav');
+
+        if (mobileMenuToggle && mainNav) {
+            mobileMenuToggle.addEventListener('click', function () {
+                mainNav.classList.toggle('mobile-open');
+            });
+
+            // Close menu when clicking outside
+            document.addEventListener('click', function (event) {
+                if (!mainNav.contains(event.target) && !mobileMenuToggle.contains(event.target)) {
+                    mainNav.classList.remove('mobile-open');
+                }
+            });
+        }
+    </script>
+
+    <!-- Chatbot Script -->
+    <script src="chatbot.js"></script>
+</body>
+
+</html>

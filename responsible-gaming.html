@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jogo Responsável | DemoSlots.pt</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --primary: #10B981;
+            --primary-dark: #059669;
+            --secondary: #EC4899;
+            --accent: #F59E0B;
+            --dark-bg: #0F172A;
+            --dark-card: #1E293B;
+            --text-light: #F8FAFC;
+            --text-dim: #94A3B8;
+            --border: rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: var(--dark-bg);
+            color: var(--text-light);
+            overflow-x: hidden;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: 0.3s;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        button {
+            cursor: pointer;
+            border: none;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .flex {
+            display: flex;
+        }
+
+        .grid {
+            display: grid;
+        }
+
+        .items-center {
+            align-items: center;
+        }
+
+        .justify-between {
+            justify-content: space-between;
+        }
+
+        .gap-2 {
+            gap: 0.5rem;
+        }
+
+        .gap-4 {
+            gap: 1rem;
+        }
+
+        .text-primary {
+            color: var(--primary);
+        }
+
+        .text-secondary {
+            color: var(--secondary);
+        }
+
+        .text-dim {
+            color: var(--text-dim);
+        }
+
+        .btn {
+            padding: 10px 24px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid var(--border);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        /* HEADER */
+        header {
+            position: relative;
+            z-index: 1000;
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 0;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: linear-gradient(to right, #8B5CF6, #EC4899, #F59E0B);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-link {
+            font-weight: 500;
+            color: var(--text-dim);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: white;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        /* Dropdown Menu */
+        .nav-dropdown {
+            position: relative;
+        }
+
+        .nav-dropdown>.nav-link {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .nav-dropdown>.nav-link::after {
+            content: '▼';
+            font-size: 0.7rem;
+            transition: transform 0.3s;
+        }
+
+        .nav-dropdown:hover>.nav-link::after {
+            transform: rotate(180deg);
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: var(--dark-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            min-width: 200px;
+            padding: 0.5rem 0;
+            margin-top: 0.5rem;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+        }
+
+        .nav-dropdown:hover .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-menu a {
+            display: block;
+            padding: 0.75rem 1.5rem;
+            color: var(--text-dim);
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .dropdown-menu a:hover {
+            color: white;
+            background: rgba(255, 255, 255, 0.05);
+            padding-left: 2rem;
+        }
+
+        /* Mobile Menu Toggle */
+        .mobile-menu-toggle {
+            display: none;
+            background: transparent;
+            border: 1px solid var(--border);
+            color: white;
+            padding: 0.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.5rem;
+        }
+
+        .mobile-menu-toggle:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        header .container {
+            position: relative;
+        }
+
+        .search-bar {
+            background: var(--dark-card);
+            border: 1px solid var(--border);
+            border-radius: 50px;
+            padding: 0.5rem 1rem;
+            display: flex;
+            align-items: center;
+            width: 200px;
+        }
+
+        .search-bar input {
+            background: transparent;
+            border: none;
+            color: white;
+            outline: none;
+            width: 100%;
+        }
+
+        h1 {
+            color: var(--primary);
+            margin-bottom: 2rem;
+            font-size: 3rem;
+            text-align: center;
+        }
+
+        h2 {
+            margin-top: 3rem;
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+            color: var(--primary);
+        }
+
+        h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        p {
+            line-height: 1.8;
+            color: #CBD5E1;
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        ul {
+            margin-left: 0;
+            color: #CBD5E1;
+            margin-bottom: 2rem;
+        }
+
+        li {
+            margin-bottom: 1rem;
+            padding-left: 2rem;
+            position: relative;
+            font-size: 1.05rem;
+            line-height: 1.7;
+        }
+
+        li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: var(--primary);
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .alert-box {
+            background: rgba(16, 185, 129, 0.15);
+            border: 2px solid var(--primary);
+            padding: 2.5rem;
+            border-radius: 16px;
+            margin-bottom: 3rem;
+            box-shadow: 0 0 30px rgba(16, 185, 129, 0.1);
+        }
+
+        .warning-box {
+            background: rgba(239, 68, 68, 0.15);
+            border: 2px solid #EF4444;
+            padding: 2.5rem;
+            border-radius: 16px;
+            margin-top: 3rem;
+            box-shadow: 0 0 30px rgba(239, 68, 68, 0.1);
+        }
+
+        .warning-box h3 {
+            color: #EF4444;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .info-card {
+            background: var(--dark-card);
+            padding: 2rem;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            transition: 0.3s;
+        }
+
+        .info-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        .info-card h4 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        /* FOOTER */
+        footer {
+            background: #020617;
+            padding: 4rem 0 0 0;
+            margin-top: 4rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 4rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-title {
+            color: white;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            display: block;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.8rem;
+            padding-left: 0;
+        }
+
+        .footer-links li::before {
+            display: none;
+        }
+
+        .footer-links a {
+            color: var(--text-dim);
+        }
+
+        .footer-links a:hover {
+            color: var(--primary);
+        }
+
+        .copyright-bar {
+            background: #000;
+            padding: 1.5rem 0;
+            text-align: center;
+            color: #64748B;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .footer-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .mobile-menu-toggle {
+                display: block;
+            }
+
+            nav {
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: var(--dark-card);
+                border-bottom: 1px solid var(--border);
+                flex-direction: column;
+                padding: 1rem;
+                opacity: 0;
+                visibility: hidden;
+                transform: translateY(-20px);
+                transition: all 0.3s;
+                max-height: 0;
+                overflow: hidden;
+            }
+
+            nav.mobile-open {
+                opacity: 1;
+                visibility: visible;
+                transform: translateY(0);
+                max-height: 500px;
+            }
+
+            .nav-link {
+                display: block;
+                width: 100%;
+                padding: 0.75rem 1rem;
+            }
+
+            .nav-dropdown>.nav-link {
+                justify-content: space-between;
+            }
+
+            .dropdown-menu {
+                position: static;
+                opacity: 1;
+                visibility: visible;
+                transform: none;
+                box-shadow: none;
+                border: none;
+                border-top: 1px solid var(--border);
+                border-radius: 0;
+                margin-top: 0;
+                background: rgba(0, 0, 0, 0.3);
+            }
+
+            header .container {
+                flex-wrap: wrap;
+                gap: 1rem;
+            }
+
+            .logo {
+                font-size: 1.2rem;
+                flex: 1;
+                min-width: 0;
+            }
+
+            .logo span {
+                font-size: 1.5rem !important;
+            }
+
+            .mobile-menu-toggle {
+                order: 2;
+            }
+
+            .header-right {
+                order: 3;
+                width: 100%;
+                display: flex;
+                gap: 0.5rem;
+                margin-top: 0;
+            }
+
+            .search-bar {
+                flex: 1;
+                min-width: 0;
+                width: auto;
+                margin: 0;
+            }
+
+            .search-bar input {
+                font-size: 0.85rem;
+                padding: 0.5rem 0.75rem;
+            }
+
+            .header-right .btn {
+                padding: 8px 12px;
+                font-size: 0.85rem;
+                white-space: nowrap;
+            }
+
+            .header-right .btn span {
+                display: none;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .logo {
+                font-size: 1rem;
+            }
+
+            .header-right {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .search-bar {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- HEADER -->
+    <header>
+        <div class="container flex justify-between items-center">
+            <a href="index.html" class="logo">
+                <img src="images/logo.svg" alt="DemoSlots" height="50">
+            </a>
+
+            <button class="mobile-menu-toggle" id="mobileMenuToggle">☰</button>
+
+            <nav class="flex gap-2" id="mainNav">
+                <a href="index.html" class="nav-link">Início</a>
+
+                <div class="nav-dropdown">
+                    <a href="rankings.html" class="nav-link">Plataformas</a>
+                    <div class="dropdown-menu">
+                        <a href="rankings.html">Top Sites</a>
+                        <a href="novos-casinos.html">Novos Casinos</a>
+                        <a href="mobile-apps.html">Mobile Apps</a>
+                    </div>
+                </div>
+
+                <div class="nav-dropdown">
+                    <a href="games.html" class="nav-link">Jogos</a>
+                    <div class="dropdown-menu">
+                        <a href="games.html">Todos Jogos</a>
+                        <a href="providers.html">Providers</a>
+                    </div>
+                </div>
+
+                <a href="bonuses.html" class="nav-link">Bónus</a>
+
+                <div class="nav-dropdown">
+                    <a href="community.html" class="nav-link">Comunidade</a>
+                    <div class="dropdown-menu">
+                        <a href="tournaments.html">Torneios</a>
+                        <a href="community.html">Fórum</a>
+                        <a href="profile.html">Leaderboards</a>
+                    </div>
+                </div>
+            </nav>
+
+            <div class="flex gap-4 items-center header-right">
+                <div class="search-bar">
+                    <span style="margin-right: 8px;">🔍</span>
+                    <input type="text" placeholder="Procurar...">
+                </div>
+                <a href="profile.html" class="btn btn-secondary" style="padding: 8px 16px;">
+                    👤 <span style="font-size: 0.9rem;">Perfil</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <div class="container" style="padding: 4rem 20px; max-width: 900px;">
+        <h1>🛡️ Jogo Responsável</h1>
+        <p style="text-align: center; font-size: 1.2rem; color: var(--text-dim); margin-bottom: 3rem;">
+            No DemoSlots.pt, a segurança e o bem-estar dos nossos utilizadores são a nossa prioridade máxima.
+        </p>
+
+        <div class="alert-box">
+            <h3 style="color: var(--primary); margin-bottom: 1rem;">⚠️ Importante: Natureza Social</h3>
+            <p>O <strong>DemoSlots.pt é uma plataforma estritamente GRATUITA e SOCIAL</strong>. Não oferecemos jogos a
+                dinheiro real e não é possível ganhar dinheiro real no nosso site. Todas as moedas são virtuais e sem
+                valor comercial. O sucesso neste site não implica sucesso futuro em jogos de azar a dinheiro real.</p>
+            <p style="margin-top: 1rem; font-weight: 600;">
+                🎯 Lembra-te: Estamos aqui apenas para entretenimento e diversão, sempre de forma segura e responsável.
+            </p>
+        </div>
+
+        <h2>Os Nossos Princípios</h2>
+        <p>Acreditamos que o jogo deve ser sempre uma forma de entretenimento, nunca uma forma de ganhar dinheiro. Mesmo
+            num ambiente gratuito como o nosso, é importante manter hábitos saudáveis e estar ciente dos riscos
+            associados
+            ao jogo quando decidires jogar com dinheiro real noutras plataformas.</p>
+
+        <div class="info-grid">
+            <div class="info-card">
+                <h4>🎯 Entretenimento Primeiro</h4>
+                <p>O jogo deve ser divertido e relaxante, nunca uma fonte de stress ou ansiedade. Se deixar de ser
+                    divertido, é altura de fazer uma pausa.</p>
+            </div>
+            <div class="info-card">
+                <h4>⏰ Tempo Limitado</h4>
+                <p>Estabelece limites claros de tempo antes de começares a jogar. Respeita esses limites e não os
+                    ultrapasses, mesmo quando estiveres a ganhar.</p>
+            </div>
+            <div class="info-card">
+                <h4>💚 Equilíbrio é Chave</h4>
+                <p>O jogo não deve interferir com as tuas responsabilidades diárias, trabalho, estudos ou vida familiar
+                    e social.</p>
+            </div>
+            <div class="info-card">
+                <h4>🔍 Auto-Avaliação</h4>
+                <p>Se sentires que estás a ficar irritado, ansioso ou dependente de um jogo, é altura de parar e
+                    procurar ajuda.</p>
+            </div>
+        </div>
+
+        <h2>Dicas para Jogar em Segurança</h2>
+        <ul>
+            <li><strong>Define limites de tempo:</strong> Decide quanto tempo queres passar a jogar antes de começares.
+                Usa um temporizador se necessário e respeita-o rigorosamente.</li>
+            <li><strong>Faz pausas regulares:</strong> Levanta-te, alonga-te, bebe água e afasta os olhos do ecrã a cada
+                45 minutos. A tua saúde física e mental são mais importantes que qualquer jogo.</li>
+            <li><strong>Não jogues quando estás emotivo:</strong> Evita jogar quando estás triste, ansioso, stressado ou
+                sob o efeito de álcool ou substâncias. As decisões devem ser sempre tomadas com clareza mental.</li>
+            <li><strong>Não uses o jogo como escape:</strong> O jogo não deve ser usado para lidar com problemas
+                emocionais, financeiros ou de relacionamento. Procura ajuda profissional se necessário.</li>
+            <li><strong>Mantém o controle:</strong> Se sentires que estás a perder o controle sobre o tempo que passas a
+                jogar, ou se o jogo começar a afectar outras áreas da tua vida, para imediatamente.</li>
+            <li><strong>Fala com outros:</strong> Partilha as tuas preocupações com amigos, família ou profissionais de
+                saúde se sentires que precisas de ajuda.</li>
+        </ul>
+
+        <h2>Sinais de Alerta</h2>
+        <p>Reconheces algum destes comportamentos? Pode ser um sinal de que precisas de ajuda:</p>
+        <div
+            style="background: var(--dark-card); padding: 2rem; border-radius: 12px; border: 1px solid var(--border); margin: 2rem 0;">
+            <ul style="margin-bottom: 0;">
+                <li>Jogar por mais tempo do que o planeado, repetidamente</li>
+                <li>Precisar de jogar com quantidades cada vez maiores para sentir a mesma emoção</li>
+                <li>Sentir inquietação ou irritabilidade quando tentas reduzir ou parar de jogar</li>
+                <li>Usar o jogo como forma de escapar de problemas ou aliviar sentimentos de desesperança, culpa ou
+                    ansiedade</li>
+                <li>Tentar recuperar perdas jogando mais ("perseguir perdas")</li>
+                <li>Mentir a membros da família, terapeutas ou outros para ocultar o grau de envolvimento com o jogo
+                </li>
+                <li>Ter colocado em risco ou perdido relacionamentos, empregos, oportunidades educacionais ou
+                    profissionais devido ao jogo</li>
+                <li>Depender de outros para fornecer dinheiro para aliviar situações financeiras desesperadas causadas
+                    pelo jogo</li>
+            </ul>
+        </div>
+
+        <div class="warning-box">
+            <h3>Precisa de Ajuda?</h3>
+            <p style="margin-bottom: 1.5rem;">Se tu ou alguém que conheces mostra sinais de problema com o jogo, existem
+                recursos confidenciais e gratuitos disponíveis em Portugal:</p>
+
+            <div
+                style="background: rgba(255, 255, 255, 0.05); padding: 1.5rem; border-radius: 8px; margin-bottom: 1rem;">
+                <p style="margin-bottom: 0.5rem;"><strong style="color: #EF4444;">Linha Vida (SICAD):</strong></p>
+                <p style="font-size: 1.2rem; color: white; margin-bottom: 0.5rem;">📞 1414</p>
+                <p style="font-size: 0.9rem; color: var(--text-dim);">Dias úteis, das 10h às 18h | Linha gratuita de
+                    apoio psicológico e orientação</p>
+            </div>
+
+            <div
+                style="background: rgba(255, 255, 255, 0.05); padding: 1.5rem; border-radius: 8px; margin-bottom: 1rem;">
+                <p style="margin-bottom: 0.5rem;"><strong style="color: #EF4444;">Gambling Therapy:</strong></p>
+                <p style="font-size: 1rem; margin-bottom: 0.5rem;"><a href="https://www.gamblingtherapy.org"
+                        style="color: var(--primary); text-decoration: underline;">www.gamblingtherapy.org</a></p>
+                <p style="font-size: 0.9rem; color: var(--text-dim);">Apoio global gratuito, confidencial e disponível
+                    em várias línguas, incluindo português</p>
+            </div>
+
+            <div style="background: rgba(255, 255, 255, 0.05); padding: 1.5rem; border-radius: 8px;">
+                <p style="margin-bottom: 0.5rem;"><strong style="color: #EF4444;">Instituto de Apoio ao Jogador
+                        (IAJ):</strong></p>
+                <p style="font-size: 1rem; margin-bottom: 0.5rem;"><a href="https://www.iaj.pt"
+                        style="color: var(--primary); text-decoration: underline;">www.iaj.pt</a></p>
+                <p style="font-size: 0.9rem; color: var(--text-dim);">Organização portuguesa especializada no apoio a
+                    jogadores problemáticos e suas famílias</p>
+            </div>
+
+            <p style="margin-top: 2rem; text-align: center; font-weight: 600; color: white;">
+                💚 Lembra-te: Pedir ajuda é um sinal de força, não de fraqueza. Existem pessoas que querem e podem
+                ajudar-te.
+            </p>
+        </div>
+
+        <div
+            style="text-align: center; margin-top: 4rem; padding: 2rem; background: var(--dark-card); border-radius: 12px; border: 1px solid var(--border);">
+            <h3 style="color: var(--primary); margin-bottom: 1rem;">📞 Emergência?</h3>
+            <p>Se estás numa situação de emergência ou pensas em fazer mal a ti ou a outros, contacta imediatamente:</p>
+            <p style="font-size: 1.5rem; font-weight: 700; color: #EF4444; margin-top: 1rem;">112 - Número de Emergência
+                Nacional</p>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div>
+                    <div class="logo" style="margin-bottom: 1rem;">
+                        <a href="index.html" style="text-decoration:none;">
+                            <img src="images/logo.svg" alt="DemoSlots" height="50">
+                        </a>
+                    </div>
+                    <p class="text-dim" style="line-height: 1.6;">
+                        O teu destino #1 para slots demo em Portugal. Plataforma 100% social e gratuita para
+                        entretenimento.
+                    </p>
+                </div>
+
+                <div>
+                    <span class="footer-title">Plataformas</span>
+                    <ul class="footer-links">
+                        <li><a href="rankings.html">Top Rated</a></li>
+                        <li><a href="novos-casinos.html">Novos Casinos</a></li>
+                        <li><a href="mobile-apps.html">Mobile Apps</a></li>
+                        <li><a href="#">Sem Registo</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <span class="footer-title">Comunidade</span>
+                    <ul class="footer-links">
+                        <li><a href="tournaments.html">Torneios</a></li>
+                        <li><a href="profile.html">Leaderboards</a></li>
+                        <li><a href="community.html">Fórum</a></li>
+                        <li><a href="news.html">Blog</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <span class="footer-title">Informação</span>
+                    <ul class="footer-links">
+                        <li><a href="about.html">Sobre Nós</a></li>
+                        <li><a href="contact.html">Contacto</a></li>
+                        <li><a href="responsible-gaming.html">Jogo Responsável</a></li>
+                        <li><a href="#">Termos e Condições</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="copyright-bar">
+                © 2025 DemoSlots.pt - Todos os direitos reservados. 18+ | Joga Responsavelmente.
+            </div>
+        </div>
+    </footer>
+    <script>
+        // Search functionality in header
+        document.addEventListener('DOMContentLoaded', function () {
+            const searchInput = document.querySelector('.search-bar input');
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function (e) {
+                    if (e.key === 'Enter') {
+                        const query = this.value.trim();
+                        if (query) {
+                            window.location.href = `games.html?search=${encodeURIComponent(query)}`;
+                        }
+                    }
+                });
+            }
+        });
+
+        // Mobile Menu Toggle
+        const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+        const mainNav = document.getElementById('mainNav');
+
+        if (mobileMenuToggle && mainNav) {
+            mobileMenuToggle.addEventListener('click', function () {
+                mainNav.classList.toggle('mobile-open');
+            });
+
+            // Close menu when clicking outside
+            document.addEventListener('click', function (event) {
+                if (!mainNav.contains(event.target) && !mobileMenuToggle.contains(event.target)) {
+                    mainNav.classList.remove('mobile-open');
+                }
+            });
+        }
+    </script>
+
+    <!-- Chatbot Script -->
+    <script src="chatbot.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contacto | DemoSlots.pt</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --primary: #8B5CF6;
+            --primary-dark: #7c3aed;
+            --secondary: #EC4899;
+            --accent: #F59E0B;
+            --success: #10B981;
+            --dark-bg: #0F172A;
+            --dark-card: #1E293B;
+            --text-light: #F8FAFC;
+            --text-dim: #94A3B8;
+            --border: rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: var(--dark-bg);
+            color: var(--text-light);
+            overflow-x: hidden;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: 0.3s;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        button {
+            cursor: pointer;
+            border: none;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .flex {
+            display: flex;
+        }
+
+        .grid {
+            display: grid;
+        }
+
+        .items-center {
+            align-items: center;
+        }
+
+        .justify-between {
+            justify-content: space-between;
+        }
+
+        .gap-2 {
+            gap: 0.5rem;
+        }
+
+        .gap-4 {
+            gap: 1rem;
+        }
+
+        .text-primary {
+            color: var(--primary);
+        }
+
+        .text-secondary {
+            color: var(--secondary);
+        }
+
+        .text-dim {
+            color: var(--text-dim);
+        }
+
+        .btn {
+            padding: 10px 24px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(139, 92, 246, 0.6);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid var(--border);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        /* HEADER */
+        header {
+            position: relative;
+            z-index: 1000;
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 0;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: linear-gradient(to right, #8B5CF6, #EC4899, #F59E0B);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-link {
+            font-weight: 500;
+            color: var(--text-dim);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: white;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        /* Dropdown Menu */
+        .nav-dropdown {
+            position: relative;
+        }
+
+        .nav-dropdown>.nav-link {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .nav-dropdown>.nav-link::after {
+            content: '▼';
+            font-size: 0.7rem;
+            transition: transform 0.3s;
+        }
+
+        .nav-dropdown:hover>.nav-link::after {
+            transform: rotate(180deg);
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: var(--dark-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            min-width: 200px;
+            padding: 0.5rem 0;
+            margin-top: 0.5rem;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+        }
+
+        .nav-dropdown:hover .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-menu a {
+            display: block;
+            padding: 0.75rem 1.5rem;
+            color: var(--text-dim);
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .dropdown-menu a:hover {
+            color: white;
+            background: rgba(255, 255, 255, 0.05);
+            padding-left: 2rem;
+        }
+
+        /* Mobile Menu Toggle */
+        .mobile-menu-toggle {
+            display: none;
+            background: transparent;
+            border: 1px solid var(--border);
+            color: white;
+            padding: 0.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.5rem;
+        }
+
+        .mobile-menu-toggle:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        header .container {
+            position: relative;
+        }
+
+        .search-bar {
+            background: var(--dark-card);
+            border: 1px solid var(--border);
+            border-radius: 50px;
+            padding: 0.5rem 1rem;
+            display: flex;
+            align-items: center;
+            width: 200px;
+        }
+
+        .search-bar input {
+            background: transparent;
+            border: none;
+            color: white;
+            outline: none;
+            width: 100%;
+        }
+
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        h2 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        p {
+            line-height: 1.8;
+            color: #CBD5E1;
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        input,
+        textarea {
+            width: 100%;
+            padding: 15px;
+            margin-bottom: 1rem;
+            background: var(--dark-card);
+            border: 1px solid var(--border);
+            color: white;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        input:focus,
+        textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        button[type="submit"] {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button[type="submit"]:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(139, 92, 246, 0.6);
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            margin-top: 4rem;
+        }
+
+        .contact-form-box {
+            background: var(--dark-card);
+            padding: 3rem;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+        }
+
+        .faq-item {
+            background: var(--dark-card);
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            border: 1px solid var(--border);
+            transition: 0.3s;
+        }
+
+        .faq-item:hover {
+            border-color: var(--primary);
+            background: rgba(139, 92, 246, 0.05);
+        }
+
+        .faq-item h4 {
+            color: white;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .contact-info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .contact-info-card {
+            background: var(--dark-card);
+            padding: 2rem;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            text-align: center;
+        }
+
+        .contact-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        /* FOOTER */
+        footer {
+            background: #020617;
+            padding: 4rem 0 0 0;
+            margin-top: 4rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 4rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-title {
+            color: white;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            display: block;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-links a {
+            color: var(--text-dim);
+        }
+
+        .footer-links a:hover {
+            color: var(--primary);
+        }
+
+        .copyright-bar {
+            background: #000;
+            padding: 1.5rem 0;
+            text-align: center;
+            color: #64748B;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .contact-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .mobile-menu-toggle {
+                display: block;
+            }
+
+            nav {
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: var(--dark-card);
+                border-bottom: 1px solid var(--border);
+                flex-direction: column;
+                padding: 1rem;
+                opacity: 0;
+                visibility: hidden;
+                transform: translateY(-20px);
+                transition: all 0.3s;
+                max-height: 0;
+                overflow: hidden;
+            }
+
+            nav.mobile-open {
+                opacity: 1;
+                visibility: visible;
+                transform: translateY(0);
+                max-height: 500px;
+            }
+
+            .nav-link {
+                display: block;
+                width: 100%;
+                padding: 0.75rem 1rem;
+            }
+
+            .nav-dropdown>.nav-link {
+                justify-content: space-between;
+            }
+
+            .dropdown-menu {
+                position: static;
+                opacity: 1;
+                visibility: visible;
+                transform: none;
+                box-shadow: none;
+                border: none;
+                border-top: 1px solid var(--border);
+                border-radius: 0;
+                margin-top: 0;
+                background: rgba(0, 0, 0, 0.3);
+            }
+
+            header .container {
+                flex-wrap: wrap;
+                gap: 1rem;
+            }
+
+            .logo {
+                font-size: 1.2rem;
+                flex: 1;
+                min-width: 0;
+            }
+
+            .logo span {
+                font-size: 1.5rem !important;
+            }
+
+            .mobile-menu-toggle {
+                order: 2;
+            }
+
+            .header-right {
+                order: 3;
+                width: 100%;
+                display: flex;
+                gap: 0.5rem;
+                margin-top: 0;
+            }
+
+            .search-bar {
+                flex: 1;
+                min-width: 0;
+                width: auto;
+                margin: 0;
+            }
+
+            .search-bar input {
+                font-size: 0.85rem;
+                padding: 0.5rem 0.75rem;
+            }
+
+            .header-right .btn {
+                padding: 8px 12px;
+                font-size: 0.85rem;
+                white-space: nowrap;
+            }
+
+            .header-right .btn span {
+                display: none;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .logo {
+                font-size: 1rem;
+            }
+
+            .header-right {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .search-bar {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- HEADER -->
+    <header>
+        <div class="container flex justify-between items-center">
+            <a href="index.html" class="logo">
+                <img src="images/logo.svg" alt="DemoSlots" height="50">
+            </a>
+
+            <button class="mobile-menu-toggle" id="mobileMenuToggle">☰</button>
+
+            <nav class="flex gap-2" id="mainNav">
+                <a href="index.html" class="nav-link">Início</a>
+
+                <div class="nav-dropdown">
+                    <a href="rankings.html" class="nav-link">Plataformas</a>
+                    <div class="dropdown-menu">
+                        <a href="rankings.html">Top Sites</a>
+                        <a href="novos-casinos.html">Novos Casinos</a>
+                        <a href="mobile-apps.html">Mobile Apps</a>
+                    </div>
+                </div>
+
+                <div class="nav-dropdown">
+                    <a href="games.html" class="nav-link">Jogos</a>
+                    <div class="dropdown-menu">
+                        <a href="games.html">Todos Jogos</a>
+                        <a href="providers.html">Providers</a>
+                    </div>
+                </div>
+
+                <a href="bonuses.html" class="nav-link">Bónus</a>
+
+                <div class="nav-dropdown">
+                    <a href="community.html" class="nav-link">Comunidade</a>
+                    <div class="dropdown-menu">
+                        <a href="tournaments.html">Torneios</a>
+                        <a href="community.html">Fórum</a>
+                        <a href="profile.html">Leaderboards</a>
+                    </div>
+                </div>
+            </nav>
+
+            <div class="flex gap-4 items-center header-right">
+                <div class="search-bar">
+                    <span style="margin-right: 8px;">🔍</span>
+                    <input type="text" placeholder="Procurar...">
+                </div>
+                <a href="profile.html" class="btn btn-secondary" style="padding: 8px 16px;">
+                    👤 <span style="font-size: 0.9rem;">Perfil</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <div class="container" style="padding: 4rem 20px;">
+        <h1 style="color: var(--primary);">📧 Fala Connosco</h1>
+        <p style="text-align: center; color: var(--text-dim); font-size: 1.2rem;">
+            Tens alguma dúvida, sugestão ou encontraste um bug? Estamos aqui para ajudar! Envia-nos uma mensagem e
+            responderemos o mais rápido possível.
+        </p>
+
+        <div class="contact-info-grid">
+            <div class="contact-info-card">
+                <div class="contact-icon">📧</div>
+                <h3 style="margin-bottom: 0.5rem;">Email</h3>
+                <p style="color: var(--text-dim); font-size: 0.9rem;">contacto@demoslots.pt</p>
+            </div>
+            <div class="contact-info-card">
+                <div class="contact-icon">⏰</div>
+                <h3 style="margin-bottom: 0.5rem;">Horário</h3>
+                <p style="color: var(--text-dim); font-size: 0.9rem;">Segunda a Domingo<br>24/7 Online</p>
+            </div>
+            <div class="contact-info-card">
+                <div class="contact-icon">⚡</div>
+                <h3 style="margin-bottom: 0.5rem;">Resposta</h3>
+                <p style="color: var(--text-dim); font-size: 0.9rem;">Geralmente em 24h</p>
+            </div>
+        </div>
+
+        <div class="contact-grid">
+            <div class="contact-form-box">
+                <h2>Envia-nos uma Mensagem</h2>
+                <form id="contactForm" onsubmit="handleContactSubmit(event)">
+                    <input type="text" id="contactName" name="name" placeholder="O teu nome completo" required>
+                    <input type="email" id="contactEmail" name="email" placeholder="O teu email" required>
+                    <input type="text" id="contactSubject" name="subject"
+                        placeholder="Assunto (ex: Dúvida, Sugestão, Bug Report)">
+                    <textarea id="contactMessage" name="message" rows="8"
+                        placeholder="A tua mensagem... (seja o mais detalhado possível)" required></textarea>
+                    <button type="submit">📤 Enviar Mensagem</button>
+                </form>
+            </div>
+
+            <div>
+                <h2>Perguntas Frequentes (FAQ)</h2>
+                <p style="color: var(--text-dim); margin-bottom: 2rem;">
+                    Encontraste a resposta que procuras? Se não, não hesites em contactar-nos!
+                </p>
+
+                <div>
+                    <div class="faq-item">
+                        <h4>Os jogos são realmente grátis?</h4>
+                        <p style="font-size: 0.95rem; color: #CBD5E1; margin-bottom: 0;">
+                            Sim! Todos os 5,000+ jogos no nosso site são versões 'demo' que usam moeda virtual.
+                            Não precisas de criar conta, fornecer dados bancários ou fazer qualquer pagamento.
+                            Começa a jogar imediatamente!
+                        </p>
+                    </div>
+                    <div class="faq-item">
+                        <h4>Posso ganhar dinheiro real?</h4>
+                        <p style="font-size: 0.95rem; color: #CBD5E1; margin-bottom: 0;">
+                            Não. Somos uma plataforma de casino social apenas para entretenimento.
+                            Todos os jogos usam moeda virtual. Se quiseres jogar com dinheiro real,
+                            consulta as nossas recomendações de casinos licenciados na página de Rankings.
+                        </p>
+                    </div>
+                    <div class="faq-item">
+                        <h4>Como funcionam os torneios?</h4>
+                        <p style="font-size: 0.95rem; color: #CBD5E1; margin-bottom: 0;">
+                            Participa em torneios diários e semanais jogando nas slots selecionadas.
+                            Acumula pontos conforme jogas, sobe no ranking e ganha badges exclusivos e XP.
+                            Todos os torneios são completamente gratuitos!
+                        </p>
+                    </div>
+                    <div class="faq-item">
+                        <h4>Preciso de criar uma conta?</h4>
+                        <p style="font-size: 0.95rem; color: #CBD5E1; margin-bottom: 0;">
+                            Não! Podes jogar todos os jogos sem criar conta. No entanto, se quiseres participar
+                            em torneios, guardar o teu progresso e competir nos rankings, recomendamos que
+                            crie uma conta gratuita na página de Perfil.
+                        </p>
+                    </div>
+                    <div class="faq-item">
+                        <h4>Como posso sugerir um novo jogo?</h4>
+                        <p style="font-size: 0.95rem; color: #CBD5E1; margin-bottom: 0;">
+                            Adoramos receber sugestões! Envia-nos uma mensagem através deste formulário ou
+                            contacta-nos por email. Estamos sempre a adicionar novos jogos e a tua sugestão
+                            pode ser a próxima a ser adicionada!
+                        </p>
+                    </div>
+                    <div class="faq-item">
+                        <h4>O site está a funcionar devagar. O que posso fazer?</h4>
+                        <p style="font-size: 0.95rem; color: #CBD5E1; margin-bottom: 0;">
+                            Se experienciaste problemas de performance, por favor contacta-nos com detalhes
+                            (navegador, dispositivo, hora do dia). Estamos constantemente a otimizar o site
+                            e o teu feedback é muito importante!
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div>
+                    <div class="logo" style="margin-bottom: 1rem;">
+                        <a href="index.html" style="text-decoration:none;">
+                            <img src="images/logo.svg" alt="DemoSlots" height="50">
+                        </a>
+                    </div>
+                    <p class="text-dim" style="line-height: 1.6;">
+                        O teu destino #1 para slots demo em Portugal. Plataforma 100% social e gratuita para
+                        entretenimento.
+                    </p>
+                </div>
+
+                <div>
+                    <span class="footer-title">Plataformas</span>
+                    <ul class="footer-links">
+                        <li><a href="rankings.html">Top Rated</a></li>
+                        <li><a href="novos-casinos.html">Novos Casinos</a></li>
+                        <li><a href="mobile-apps.html">Mobile Apps</a></li>
+                        <li><a href="#">Sem Registo</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <span class="footer-title">Comunidade</span>
+                    <ul class="footer-links">
+                        <li><a href="tournaments.html">Torneios</a></li>
+                        <li><a href="profile.html">Leaderboards</a></li>
+                        <li><a href="community.html">Fórum</a></li>
+                        <li><a href="news.html">Blog</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <span class="footer-title">Informação</span>
+                    <ul class="footer-links">
+                        <li><a href="about.html">Sobre Nós</a></li>
+                        <li><a href="contact.html">Contacto</a></li>
+                        <li><a href="responsible-gaming.html">Jogo Responsável</a></li>
+                        <li><a href="#">Termos e Condições</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="copyright-bar">
+                © 2025 DemoSlots.pt - Todos os direitos reservados. 18+ | Joga Responsavelmente.
+            </div>
+        </div>
+    </footer>
+    <script>
+        // Mobile Menu Toggle
+        const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+        const mainNav = document.getElementById('mainNav');
+
+        if (mobileMenuToggle && mainNav) {
+            mobileMenuToggle.addEventListener('click', function () {
+                mainNav.classList.toggle('mobile-open');
+            });
+
+            // Close menu when clicking outside
+            document.addEventListener('click', function (event) {
+                if (!mainNav.contains(event.target) && !mobileMenuToggle.contains(event.target)) {
+                    mainNav.classList.remove('mobile-open');
+                }
+            });
+        }
+    </script>
+
+    <!-- Chatbot Script -->
+    <script src="chatbot.js"></script>
+</body>
+
+</html>

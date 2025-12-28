@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mobile Apps | DemoSlots.pt</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --primary: #8B5CF6;
+            --secondary: #EC4899;
+            --accent: #F59E0B;
+            --success: #10B981;
+            --dark-bg: #0F172A;
+            --dark-card: #1E293B;
+            --text-light: #F8FAFC;
+            --text-dim: #94A3B8;
+            --border: rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: var(--dark-bg);
+            color: var(--text-light);
+            overflow-x: hidden;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: 0.3s;
+        }
+
+        button {
+            cursor: pointer;
+            border: none;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .flex {
+            display: flex;
+        }
+
+        .grid {
+            display: grid;
+        }
+
+        .items-center {
+            align-items: center;
+        }
+
+        .justify-between {
+            justify-content: space-between;
+        }
+
+        .gap-2 {
+            gap: 0.5rem;
+        }
+
+        .gap-4 {
+            gap: 1rem;
+        }
+
+        .text-dim {
+            color: var(--text-dim);
+        }
+
+        .text-secondary {
+            color: var(--secondary);
+        }
+
+        .btn {
+            padding: 10px 24px;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            border: none;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid var(--border);
+        }
+
+        header {
+            position: relative;
+            z-index: 1000;
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 0;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: linear-gradient(to right, #8B5CF6, #EC4899, #F59E0B);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .nav-link {
+            font-weight: 500;
+            color: var(--text-dim);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: white;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .nav-dropdown {
+            position: relative;
+        }
+
+        .nav-dropdown>.nav-link {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .nav-dropdown>.nav-link::after {
+            content: '▼';
+            font-size: 0.7rem;
+            transition: transform 0.3s;
+        }
+
+        .nav-dropdown:hover>.nav-link::after {
+            transform: rotate(180deg);
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: var(--dark-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            min-width: 200px;
+            padding: 0.5rem 0;
+            margin-top: 0.5rem;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+        }
+
+        .nav-dropdown:hover .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-menu a {
+            display: block;
+            padding: 0.75rem 1.5rem;
+            color: var(--text-dim);
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .dropdown-menu a:hover {
+            color: white;
+            background: rgba(255, 255, 255, 0.05);
+            padding-left: 2rem;
+        }
+
+        .mobile-menu-toggle {
+            display: none;
+            background: transparent;
+            border: 1px solid var(--border);
+            color: white;
+            padding: 0.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.5rem;
+        }
+
+        .mobile-menu-toggle:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        header .container {
+            position: relative;
+        }
+
+        .search-bar {
+            background: var(--dark-card);
+            border: 1px solid var(--border);
+            border-radius: 50px;
+            padding: 0.5rem 1rem;
+            display: flex;
+            align-items: center;
+            width: 200px;
+        }
+
+        .search-bar input {
+            background: transparent;
+            border: none;
+            color: white;
+            outline: none;
+            width: 100%;
+        }
+
+        .page-hero {
+            background: linear-gradient(135deg, #1E1B4B, #2D1B69);
+            padding: 4rem 0;
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .page-hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(to right, #8B5CF6, #EC4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .app-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .app-card {
+            background: var(--dark-card);
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            transition: all 0.3s;
+        }
+
+        .app-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(139, 92, 246, 0.3);
+            border-color: var(--primary);
+        }
+
+        .app-header {
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.2), rgba(236, 72, 153, 0.2));
+            padding: 2rem;
+            text-align: center;
+            position: relative;
+        }
+
+        .app-icon {
+            font-size: 5rem;
+            margin-bottom: 1rem;
+        }
+
+        .app-name {
+            font-size: 1.8rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+        }
+
+        .app-platforms {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .platform-badge {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .app-body {
+            padding: 2rem;
+        }
+
+        .app-features {
+            list-style: none;
+            margin: 1.5rem 0;
+        }
+
+        .app-features li {
+            padding: 0.75rem 0;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .app-features li:last-child {
+            border-bottom: none;
+        }
+
+        .app-features li::before {
+            content: '📱';
+            font-size: 1.2rem;
+        }
+
+        .download-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .download-btn {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border);
+            padding: 1rem;
+            border-radius: 12px;
+            text-align: center;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .download-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--primary);
+        }
+
+        .download-btn-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        footer {
+            background: #020617;
+            padding: 4rem 0 0 0;
+            margin-top: 4rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 4rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-title {
+            color: white;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            display: block;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-links a {
+            color: var(--text-dim);
+        }
+
+        .footer-links a:hover {
+            color: var(--primary);
+        }
+
+        .copyright-bar {
+            background: #000;
+            padding: 1.5rem 0;
+            text-align: center;
+            color: #64748B;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .mobile-menu-toggle {
+                display: block;
+            }
+
+            nav {
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: var(--dark-card);
+                border-bottom: 1px solid var(--border);
+                flex-direction: column;
+                padding: 1rem;
+                opacity: 0;
+                visibility: hidden;
+                transform: translateY(-20px);
+                transition: all 0.3s;
+                max-height: 0;
+                overflow: hidden;
+            }
+
+            nav.mobile-open {
+                opacity: 1;
+                visibility: visible;
+                transform: translateY(0);
+                max-height: 500px;
+            }
+
+            .nav-link {
+                display: block;
+                width: 100%;
+                padding: 0.75rem 1rem;
+            }
+
+            .nav-dropdown>.nav-link {
+                justify-content: space-between;
+            }
+
+            .dropdown-menu {
+                position: static;
+                opacity: 1;
+                visibility: visible;
+                transform: none;
+                box-shadow: none;
+                border: none;
+                border-top: 1px solid var(--border);
+                border-radius: 0;
+                margin-top: 0;
+                background: rgba(0, 0, 0, 0.3);
+            }
+
+            header .container {
+                flex-wrap: wrap;
+                gap: 1rem;
+            }
+
+            .logo {
+                font-size: 1.2rem;
+                flex: 1;
+                min-width: 0;
+            }
+
+            .logo span {
+                font-size: 1.5rem !important;
+            }
+
+            .mobile-menu-toggle {
+                order: 2;
+            }
+
+            .header-right {
+                order: 3;
+                width: 100%;
+                display: flex;
+                gap: 0.5rem;
+                margin-top: 0;
+            }
+
+            .search-bar {
+                flex: 1;
+                min-width: 0;
+                width: auto;
+                margin: 0;
+            }
+
+            .search-bar input {
+                font-size: 0.85rem;
+                padding: 0.5rem 0.75rem;
+            }
+
+            .header-right .btn {
+                padding: 8px 12px;
+                font-size: 0.85rem;
+                white-space: nowrap;
+            }
+
+            .header-right .btn span {
+                display: none;
+            }
+
+            .app-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .page-hero h1 {
+                font-size: 2rem;
+            }
+
+            .download-buttons {
+                flex-direction: column;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .logo {
+                font-size: 1rem;
+            }
+
+            .header-right {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .search-bar {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="container flex justify-between items-center">
+            <a href="index.html" class="logo">
+                <img src="images/logo.svg" alt="DemoSlots" height="50">
+            </a>
+
+            <button class="mobile-menu-toggle" id="mobileMenuToggle">☰</button>
+
+            <nav class="flex gap-2" id="mainNav">
+                <a href="index.html" class="nav-link">Início</a>
+
+                <div class="nav-dropdown">
+                    <a href="rankings.html" class="nav-link active">Plataformas</a>
+                    <div class="dropdown-menu">
+                        <a href="rankings.html">Top Sites</a>
+                        <a href="novos-casinos.html">Novos Casinos</a>
+                        <a href="mobile-apps.html" class="active">Mobile Apps</a>
+                    </div>
+                </div>
+
+                <div class="nav-dropdown">
+                    <a href="games.html" class="nav-link">Jogos</a>
+                    <div class="dropdown-menu">
+                        <a href="games.html">Todos Jogos</a>
+                        <a href="providers.html">Providers</a>
+                    </div>
+                </div>
+
+                <a href="bonuses.html" class="nav-link">Bónus</a>
+
+                <div class="nav-dropdown">
+                    <a href="community.html" class="nav-link">Comunidade</a>
+                    <div class="dropdown-menu">
+                        <a href="tournaments.html">Torneios</a>
+                        <a href="community.html">Fórum</a>
+                        <a href="profile.html">Leaderboards</a>
+                    </div>
+                </div>
+            </nav>
+
+            <div class="flex gap-4 items-center header-right">
+                <div class="search-bar">
+                    <span style="margin-right: 8px;">🔍</span>
+                    <input type="text" placeholder="Procurar...">
+                </div>
+                <a href="profile.html" class="btn btn-secondary" style="padding: 8px 16px;">
+                    👤 <span style="font-size: 0.9rem;">Perfil</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <div class="page-hero">
+        <div class="container">
+            <h1>📱 Mobile Apps</h1>
+            <p class="text-dim" style="font-size: 1.2rem; max-width: 600px; margin: 0 auto;">
+                Joga em qualquer lugar, a qualquer hora. Descobre as melhores apps móveis para casino social em
+                Portugal.
+            </p>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="app-grid">
+            <!-- App 1 -->
+            <div class="app-card">
+                <div class="app-header">
+                    <div class="app-icon">🎰</div>
+                    <div class="app-name">LuckySpins Mobile</div>
+                    <p class="text-dim">A melhor experiência móvel</p>
+                    <div class="app-platforms">
+                        <span class="platform-badge">📱 iOS</span>
+                        <span class="platform-badge">🤖 Android</span>
+                    </div>
+                </div>
+                <div class="app-body">
+                    <p style="margin-bottom: 1.5rem; color: #CBD5E1;">
+                        App nativa com desempenho otimizado. Joga os teus slots favoritos com gráficos HD e carregamento
+                        instantâneo.
+                    </p>
+
+                    <ul class="app-features">
+                        <li>Interface adaptada para mobile</li>
+                        <li>Notificações de bónus e eventos</li>
+                        <li>Modo offline para alguns jogos</li>
+                        <li>Sincronização entre dispositivos</li>
+                        <li>Suporte para biometria</li>
+                    </ul>
+
+                    <div class="download-buttons">
+                        <div class="download-btn">
+                            <div class="download-btn-icon">🍎</div>
+                            <div style="font-weight: 600; font-size: 0.9rem;">App Store</div>
+                            <div style="font-size: 0.75rem; color: var(--text-dim); margin-top: 5px;">iOS 13.0+</div>
+                        </div>
+                        <div class="download-btn">
+                            <div class="download-btn-icon">🤖</div>
+                            <div style="font-weight: 600; font-size: 0.9rem;">Google Play</div>
+                            <div style="font-size: 0.75rem; color: var(--text-dim); margin-top: 5px;">Android 8.0+</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- App 2 -->
+            <div class="app-card">
+                <div class="app-header">
+                    <div class="app-icon">🎲</div>
+                    <div class="app-name">DiamondSlots App</div>
+                    <p class="text-dim">Jogos premium no bolso</p>
+                    <div class="app-platforms">
+                        <span class="platform-badge">📱 iOS</span>
+                        <span class="platform-badge">🤖 Android</span>
+                    </div>
+                </div>
+                <div class="app-body">
+                    <p style="margin-bottom: 1.5rem; color: #CBD5E1;">
+                        App elegante com design premium. Acesso completo a todos os jogos e funcionalidades da
+                        plataforma web.
+                    </p>
+
+                    <ul class="app-features">
+                        <li>Biblioteca completa de jogos</li>
+                        <li>Gamificação integrada</li>
+                        <li>Chat social em tempo real</li>
+                        <li>Push notifications personalizadas</li>
+                        <li>Depósitos rápidos e seguros</li>
+                    </ul>
+
+                    <div class="download-buttons">
+                        <div class="download-btn">
+                            <div class="download-btn-icon">🍎</div>
+                            <div style="font-weight: 600; font-size: 0.9rem;">App Store</div>
+                            <div style="font-size: 0.75rem; color: var(--text-dim); margin-top: 5px;">iOS 13.0+</div>
+                        </div>
+                        <div class="download-btn">
+                            <div class="download-btn-icon">🤖</div>
+                            <div style="font-weight: 600; font-size: 0.9rem;">Google Play</div>
+                            <div style="font-size: 0.75rem; color: var(--text-dim); margin-top: 5px;">Android 8.0+</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- App 3 -->
+            <div class="app-card">
+                <div class="app-header">
+                    <div class="app-icon">💎</div>
+                    <div class="app-name">GoldenSpins Mobile</div>
+                    <p class="text-dim">Velocidade e simplicidade</p>
+                    <div class="app-platforms">
+                        <span class="platform-badge">📱 iOS</span>
+                        <span class="platform-badge">🤖 Android</span>
+                        <span class="platform-badge">🌐 Web</span>
+                    </div>
+                </div>
+                <div class="app-body">
+                    <p style="margin-bottom: 1.5rem; color: #CBD5E1;">
+                        App leve e rápida, perfeita para jogos rápidos. Carregamento ultra-rápido e uso mínimo de dados.
+                    </p>
+
+                    <ul class="app-features">
+                        <li>Carregamento em segundos</li>
+                        <li>Modo economia de dados</li>
+                        <li>Jogos otimizados para touch</li>
+                        <li>Compatível com tablets</li>
+                        <li>Acesso offline a perfil</li>
+                    </ul>
+
+                    <div class="download-buttons">
+                        <div class="download-btn">
+                            <div class="download-btn-icon">🍎</div>
+                            <div style="font-weight: 600; font-size: 0.9rem;">App Store</div>
+                            <div style="font-size: 0.75rem; color: var(--text-dim); margin-top: 5px;">iOS 12.0+</div>
+                        </div>
+                        <div class="download-btn">
+                            <div class="download-btn-icon">🤖</div>
+                            <div style="font-weight: 600; font-size: 0.9rem;">Google Play</div>
+                            <div style="font-size: 0.75rem; color: var(--text-dim); margin-top: 5px;">Android 7.0+</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- App 4 -->
+            <div class="app-card">
+                <div class="app-header">
+                    <div class="app-icon">🌟</div>
+                    <div class="app-name">StarBet Mobile</div>
+                    <p class="text-dim">Tudo em um só lugar</p>
+                    <div class="app-platforms">
+                        <span class="platform-badge">📱 iOS</span>
+                        <span class="platform-badge">🤖 Android</span>
+                    </div>
+                </div>
+                <div class="app-body">
+                    <p style="margin-bottom: 1.5rem; color: #CBD5E1;">
+                        App completa com todas as funcionalidades: jogos, torneios, comunidade e muito mais num único
+                        lugar.
+                    </p>
+
+                    <ul class="app-features">
+                        <li>Todos os jogos disponíveis</li>
+                        <li>Torneios e competições</li>
+                        <li>Fórum da comunidade integrado</li>
+                        <li>Sistema de recompensas</li>
+                        <li>Suporte multi-idioma</li>
+                    </ul>
+
+                    <div class="download-buttons">
+                        <div class="download-btn">
+                            <div class="download-btn-icon">🍎</div>
+                            <div style="font-weight: 600; font-size: 0.9rem;">App Store</div>
+                            <div style="font-size: 0.75rem; color: var(--text-dim); margin-top: 5px;">iOS 14.0+</div>
+                        </div>
+                        <div class="download-btn">
+                            <div class="download-btn-icon">🤖</div>
+                            <div style="font-weight: 600; font-size: 0.9rem;">Google Play</div>
+                            <div style="font-size: 0.75rem; color: var(--text-dim); margin-top: 5px;">Android 9.0+</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div
+            style="margin: 4rem 0; padding: 3rem; background: var(--dark-card); border-radius: 20px; border: 1px solid var(--border);">
+            <h2 style="font-size: 2rem; margin-bottom: 1rem; color: var(--primary); text-align: center;">💡 Porquê Usar
+                Apps Móveis?</h2>
+            <div
+                style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; margin-top: 2rem;">
+                <div>
+                    <div style="font-size: 3rem; margin-bottom: 1rem; text-align: center;">⚡</div>
+                    <h3 style="text-align: center; margin-bottom: 0.5rem;">Desempenho</h3>
+                    <p style="color: var(--text-dim); text-align: center; font-size: 0.95rem;">
+                        Apps nativas são mais rápidas e fluidas que versões web mobile
+                    </p>
+                </div>
+                <div>
+                    <div style="font-size: 3rem; margin-bottom: 1rem; text-align: center;">🔔</div>
+                    <h3 style="text-align: center; margin-bottom: 0.5rem;">Notificações</h3>
+                    <p style="color: var(--text-dim); text-align: center; font-size: 0.95rem;">
+                        Recebe alertas sobre bónus, torneios e eventos importantes
+                    </p>
+                </div>
+                <div>
+                    <div style="font-size: 3rem; margin-bottom: 1rem; text-align: center;">💾</div>
+                    <h3 style="text-align: center; margin-bottom: 0.5rem;">Offline</h3>
+                    <p style="color: var(--text-dim); text-align: center; font-size: 0.95rem;">
+                        Algumas funcionalidades disponíveis mesmo sem internet
+                    </p>
+                </div>
+                <div>
+                    <div style="font-size: 3rem; margin-bottom: 1rem; text-align: center;">🔒</div>
+                    <h3 style="text-align: center; margin-bottom: 0.5rem;">Segurança</h3>
+                    <p style="color: var(--text-dim); text-align: center; font-size: 0.95rem;">
+                        Acesso seguro com biometria e autenticação de dois fatores
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div>
+                    <div class="logo" style="margin-bottom: 1rem;">
+                        <a href="index.html" style="text-decoration:none;">
+                            <img src="images/logo.svg" alt="DemoSlots" height="50">
+                        </a>
+                    </div>
+                    <p class="text-dim" style="line-height: 1.6;">
+                        O teu destino #1 para slots demo em Portugal. Plataforma 100% social e gratuita para
+                        entretenimento.
+                    </p>
+                </div>
+
+                <div>
+                    <span class="footer-title">Plataformas</span>
+                    <ul class="footer-links">
+                        <li><a href="rankings.html">Top Rated</a></li>
+                        <li><a href="novos-casinos.html">Novos Casinos</a></li>
+                        <li><a href="mobile-apps.html">Mobile Apps</a></li>
+                        <li><a href="#">Sem Registo</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <span class="footer-title">Comunidade</span>
+                    <ul class="footer-links">
+                        <li><a href="tournaments.html">Torneios</a></li>
+                        <li><a href="profile.html">Leaderboards</a></li>
+                        <li><a href="community.html">Fórum</a></li>
+                        <li><a href="news.html">Blog</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <span class="footer-title">Informação</span>
+                    <ul class="footer-links">
+                        <li><a href="about.html">Sobre Nós</a></li>
+                        <li><a href="contact.html">Contacto</a></li>
+                        <li><a href="responsible-gaming.html">Jogo Responsável</a></li>
+                        <li><a href="#">Termos e Condições</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="copyright-bar">
+                © 2025 DemoSlots.pt - Todos os direitos reservados. 18+ | Joga Responsavelmente.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Search functionality in header
+        document.addEventListener('DOMContentLoaded', function () {
+            const searchInput = document.querySelector('.search-bar input');
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function (e) {
+                    if (e.key === 'Enter') {
+                        const query = this.value.trim();
+                        if (query) {
+                            window.location.href = `games.html?search=${encodeURIComponent(query)}`;
+                        }
+                    }
+                });
+            }
+        });
+
+        // Mobile Menu Toggle
+        const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+        const mainNav = document.getElementById('mainNav');
+
+        if (mobileMenuToggle && mainNav) {
+            mobileMenuToggle.addEventListener('click', function () {
+                mainNav.classList.toggle('mobile-open');
+            });
+
+            document.addEventListener('click', function (event) {
+                if (!mainNav.contains(event.target) && !mobileMenuToggle.contains(event.target)) {
+                    mainNav.classList.remove('mobile-open');
+                }
+            });
+        }
+    </script>
+
+    <!-- Chatbot Script -->
+    <script src="chatbot.js"></script>
+</body>
+
+</html>

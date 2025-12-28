@@ -1,0 +1,919 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sobre Nós | DemoSlots.pt</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --primary: #8B5CF6;
+            --primary-dark: #7c3aed;
+            --secondary: #EC4899;
+            --accent: #F59E0B;
+            --success: #10B981;
+            --dark-bg: #0F172A;
+            --dark-card: #1E293B;
+            --text-light: #F8FAFC;
+            --text-dim: #94A3B8;
+            --border: rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: var(--dark-bg);
+            color: var(--text-light);
+            overflow-x: hidden;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: 0.3s;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        button {
+            cursor: pointer;
+            border: none;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .flex {
+            display: flex;
+        }
+
+        .grid {
+            display: grid;
+        }
+
+        .items-center {
+            align-items: center;
+        }
+
+        .justify-between {
+            justify-content: space-between;
+        }
+
+        .justify-center {
+            justify-content: center;
+        }
+
+        .gap-2 {
+            gap: 0.5rem;
+        }
+
+        .gap-4 {
+            gap: 1rem;
+        }
+
+        .text-primary {
+            color: var(--primary);
+        }
+
+        .text-secondary {
+            color: var(--secondary);
+        }
+
+        .text-dim {
+            color: var(--text-dim);
+        }
+
+        .btn {
+            padding: 10px 24px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(139, 92, 246, 0.6);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid var(--border);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        /* HEADER */
+        header {
+            position: relative;
+            z-index: 1000;
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 0;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: linear-gradient(to right, #8B5CF6, #EC4899, #F59E0B);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .nav-link {
+            font-weight: 500;
+            color: var(--text-dim);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: white;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        /* Dropdown Menu */
+        .nav-dropdown {
+            position: relative;
+        }
+
+        .nav-dropdown>.nav-link {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .nav-dropdown>.nav-link::after {
+            content: '▼';
+            font-size: 0.7rem;
+            transition: transform 0.3s;
+        }
+
+        .nav-dropdown:hover>.nav-link::after {
+            transform: rotate(180deg);
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: var(--dark-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            min-width: 200px;
+            padding: 0.5rem 0;
+            margin-top: 0.5rem;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+        }
+
+        .nav-dropdown:hover .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-menu a {
+            display: block;
+            padding: 0.75rem 1.5rem;
+            color: var(--text-dim);
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .dropdown-menu a:hover {
+            color: white;
+            background: rgba(255, 255, 255, 0.05);
+            padding-left: 2rem;
+        }
+
+        /* Mobile Menu Toggle */
+        .mobile-menu-toggle {
+            display: none;
+            background: transparent;
+            border: 1px solid var(--border);
+            color: white;
+            padding: 0.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.5rem;
+        }
+
+        .mobile-menu-toggle:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        header .container {
+            position: relative;
+        }
+
+        .search-bar {
+            background: var(--dark-card);
+            border: 1px solid var(--border);
+            border-radius: 50px;
+            padding: 0.5rem 1rem;
+            display: flex;
+            align-items: center;
+            width: 200px;
+        }
+
+        .search-bar input {
+            background: transparent;
+            border: none;
+            color: white;
+            outline: none;
+            width: 100%;
+        }
+
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 2rem;
+            color: var(--primary);
+            text-align: center;
+        }
+
+        h2 {
+            margin-top: 3rem;
+            margin-bottom: 1.5rem;
+            color: var(--secondary);
+            font-size: 2rem;
+        }
+
+        p {
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+            color: #CBD5E1;
+            font-size: 1.1rem;
+        }
+
+        .content-box {
+            background: #1E293B;
+            padding: 4rem;
+            border-radius: 20px;
+            border: 1px solid var(--border);
+            margin: 4rem 0;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .team-card {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 2rem;
+            border-radius: 12px;
+            text-align: center;
+            transition: 0.3s;
+            border: 1px solid var(--border);
+        }
+
+        .team-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.08);
+            border-color: var(--primary);
+        }
+
+        .team-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            margin: 0 auto 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            border: 3px solid var(--primary);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .stat-card {
+            background: rgba(139, 92, 246, 0.1);
+            padding: 2rem;
+            border-radius: 12px;
+            text-align: center;
+            border: 1px solid rgba(139, 92, 246, 0.3);
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        /* FOOTER */
+        footer {
+            background: #020617;
+            padding: 4rem 0 0 0;
+            margin-top: 4rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 4rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-title {
+            color: white;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            display: block;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-links a {
+            color: var(--text-dim);
+        }
+
+        .footer-links a:hover {
+            color: var(--primary);
+        }
+
+        .copyright-bar {
+            background: #000;
+            padding: 1.5rem 0;
+            text-align: center;
+            color: #64748B;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .footer-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .mobile-menu-toggle {
+                display: block;
+            }
+
+            nav {
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: var(--dark-card);
+                border-bottom: 1px solid var(--border);
+                flex-direction: column;
+                padding: 1rem;
+                opacity: 0;
+                visibility: hidden;
+                transform: translateY(-20px);
+                transition: all 0.3s;
+                max-height: 0;
+                overflow: hidden;
+            }
+
+            nav.mobile-open {
+                opacity: 1;
+                visibility: visible;
+                transform: translateY(0);
+                max-height: 500px;
+            }
+
+            .nav-link {
+                display: block;
+                width: 100%;
+                padding: 0.75rem 1rem;
+            }
+
+            .nav-dropdown>.nav-link {
+                justify-content: space-between;
+            }
+
+            .dropdown-menu {
+                position: static;
+                opacity: 1;
+                visibility: visible;
+                transform: none;
+                box-shadow: none;
+                border: none;
+                border-top: 1px solid var(--border);
+                border-radius: 0;
+                margin-top: 0;
+                background: rgba(0, 0, 0, 0.3);
+            }
+
+            .search-bar {
+                width: 100%;
+                margin: 0.5rem 0;
+            }
+
+            header .container {
+                flex-wrap: wrap;
+                gap: 1rem;
+            }
+
+            .logo {
+                font-size: 1.2rem;
+                flex: 1;
+                min-width: 0;
+            }
+
+            .logo span {
+                font-size: 1.5rem !important;
+            }
+
+            .mobile-menu-toggle {
+                order: 2;
+            }
+
+            .header-right {
+                order: 3;
+                width: 100%;
+                display: flex;
+                gap: 0.5rem;
+                margin-top: 0;
+            }
+
+            .search-bar {
+                flex: 1;
+                min-width: 0;
+                width: auto;
+                margin: 0;
+            }
+
+            .search-bar input {
+                font-size: 0.85rem;
+                padding: 0.5rem 0.75rem;
+            }
+
+            .header-right .btn {
+                padding: 8px 12px;
+                font-size: 0.85rem;
+                white-space: nowrap;
+            }
+
+            .header-right .btn span {
+                display: none;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+        }
+
+        /* Desktop (992px - 1024px) */
+        @media (max-width: 1024px) {
+            .container {
+                padding: 0 16px;
+            }
+
+            .content-box {
+                padding: 3rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        /* Small Desktop / Large Tablet (768px - 992px) */
+        @media (max-width: 992px) {
+            .content-box {
+                padding: 2.5rem;
+                margin: 3rem 0;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1.5rem;
+            }
+
+            .team-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        /* Tablet (576px - 768px) */
+        @media (max-width: 768px) {
+            .content-box {
+                padding: 2rem;
+                margin: 2rem 0;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+                gap: 1.25rem;
+            }
+
+            .team-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Small Tablet / Large Phone (480px - 576px) */
+        @media (max-width: 576px) {
+            .container {
+                padding: 0 12px;
+            }
+
+            .content-box {
+                padding: 1.5rem;
+                margin: 1.5rem 0;
+            }
+
+            h1 {
+                font-size: 1.75rem;
+            }
+        }
+
+        /* Small Phone (320px - 480px) */
+        @media (max-width: 480px) {
+            .container {
+                padding: 0 10px;
+            }
+
+            .logo {
+                font-size: 1rem;
+            }
+
+            .logo span {
+                font-size: 1.2rem !important;
+            }
+
+            .header-right {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .search-bar {
+                width: 100%;
+            }
+
+            .content-box {
+                padding: 1.25rem;
+                margin: 1.25rem 0;
+                border-radius: 16px;
+            }
+
+            h1 {
+                font-size: 1.5rem;
+            }
+        }
+
+        /* Extra Small Phone (320px and below) */
+        @media (max-width: 320px) {
+            .container {
+                padding: 0 8px;
+            }
+
+            .content-box {
+                padding: 1rem;
+            }
+
+            h1 {
+                font-size: 1.35rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- HEADER -->
+    <header>
+        <div class="container flex justify-between items-center">
+            <a href="index.html" class="logo">
+                <img src="images/logo.svg" alt="DemoSlots" height="50">
+            </a>
+
+            <button class="mobile-menu-toggle" id="mobileMenuToggle">☰</button>
+
+            <nav class="flex gap-2" id="mainNav">
+                <a href="index.html" class="nav-link">Início</a>
+
+                <div class="nav-dropdown">
+                    <a href="rankings.html" class="nav-link">Plataformas</a>
+                    <div class="dropdown-menu">
+                        <a href="rankings.html">Top Sites</a>
+                        <a href="novos-casinos.html">Novos Casinos</a>
+                        <a href="mobile-apps.html">Mobile Apps</a>
+                    </div>
+                </div>
+
+                <div class="nav-dropdown">
+                    <a href="games.html" class="nav-link">Jogos</a>
+                    <div class="dropdown-menu">
+                        <a href="games.html">Todos Jogos</a>
+                        <a href="providers.html">Providers</a>
+                    </div>
+                </div>
+
+                <a href="bonuses.html" class="nav-link">Bónus</a>
+
+                <div class="nav-dropdown">
+                    <a href="community.html" class="nav-link">Comunidade</a>
+                    <div class="dropdown-menu">
+                        <a href="tournaments.html">Torneios</a>
+                        <a href="community.html">Fórum</a>
+                        <a href="profile.html">Leaderboards</a>
+                    </div>
+                </div>
+            </nav>
+
+            <div class="flex gap-4 items-center header-right">
+                <div class="search-bar">
+                    <span style="margin-right: 8px;">🔍</span>
+                    <input type="text" placeholder="Procurar...">
+                </div>
+                <a href="profile.html" class="btn btn-secondary" style="padding: 8px 16px;">
+                    👤 <span style="font-size: 0.9rem;">Perfil</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="content-box">
+            <h1>🎯 A Nossa História</h1>
+            <p><strong>A DemoSlots.pt nasceu de uma ideia simples em 2024:</strong> criar um espaço seguro, divertido e
+                100% gratuito para os amantes de slots online em Portugal. Num mercado saturado de casinos que apenas
+                querem o teu dinheiro, nós decidimos fazer diferente.</p>
+            <p>Acreditamos que a emoção do jogo não deve custar uma fortuna. Por isso, reunimos as melhores versões
+                "demo" dos jogos mais populares do mercado, permitindo que jogues sem qualquer risco financeiro. A nossa
+                equipa trabalha diariamente para negociar com os maiores fornecedores (como NetEnt, Pragmatic Play,
+                Play'n GO
+                e Evolution Gaming) para trazer os lançamentos mais recentes para a nossa plataforma, dias antes de
+                chegarem aos casinos a
+                dinheiro real.</p>
+            <p>Desde o nosso lançamento, já recebemos mais de <strong>100.000 jogadores portugueses</strong> que confiam
+                na nossa
+                plataforma para descobrir novos jogos, testar estratégias e participar em torneios emocionantes sem
+                gastar um único cêntimo.</p>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">50+</div>
+                    <p style="color: var(--text-dim); font-size: 1rem;">Plataformas Avaliadas</p>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">5.000+</div>
+                    <p style="color: var(--text-dim); font-size: 1rem;">Jogos Demo Disponíveis</p>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">100K+</div>
+                    <p style="color: var(--text-dim); font-size: 1rem;">Jogadores Ativos</p>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">24/7</div>
+                    <p style="color: var(--text-dim); font-size: 1rem;">Suporte Disponível</p>
+                </div>
+            </div>
+
+            <h2>A Nossa Missão</h2>
+            <p>Promover o entretenimento responsável. Queremos que experimentes as mecânicas, entendas as regras e te
+                divirtas com a comunidade antes de sequer pensares em jogar com dinheiro real. O nosso foco é a educação
+                do jogador e a criação de uma comunidade saudável e competitiva através dos nossos torneios gratuitos.
+            </p>
+            <p>Acreditamos que cada jogador deve ter acesso gratuito aos melhores jogos do mercado para poder tomar
+                decisões informadas. Por isso, investimos constantemente em tecnologia de ponta, garantindo que a
+                experiência na DemoSlots.pt seja tão fluida e divertida quanto nos melhores casinos online.</p>
+
+            <h2>Os Nossos Valores</h2>
+            <div
+                style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; margin-top: 2rem;">
+                <div
+                    style="background: rgba(139, 92, 246, 0.1); padding: 2rem; border-radius: 12px; border: 1px solid rgba(139, 92, 246, 0.3);">
+                    <h3 style="color: var(--primary); margin-bottom: 1rem; font-size: 1.5rem;">🎮 Transparência Total
+                    </h3>
+                    <p style="font-size: 1rem;">Todas as nossas avaliações são baseadas em critérios objetivos e
+                        independentes.
+                        Nunca aceitamos pagamentos de casinos para influenciar as nossas classificações.</p>
+                </div>
+                <div
+                    style="background: rgba(236, 72, 153, 0.1); padding: 2rem; border-radius: 12px; border: 1px solid rgba(236, 72, 153, 0.3);">
+                    <h3 style="color: var(--secondary); margin-bottom: 1rem; font-size: 1.5rem;">🤝 Jogo Responsável
+                    </h3>
+                    <p style="font-size: 1rem;">Promovemos ativamente o jogo responsável. A nossa plataforma é 100%
+                        gratuita,
+                        ajudando os jogadores a entenderem os jogos antes de investirem dinheiro real.</p>
+                </div>
+                <div
+                    style="background: rgba(16, 185, 129, 0.1); padding: 2rem; border-radius: 12px; border: 1px solid rgba(16, 185, 129, 0.3);">
+                    <h3 style="color: var(--success); margin-bottom: 1rem; font-size: 1.5rem;">🌟 Inovação Constante
+                    </h3>
+                    <p style="font-size: 1rem;">Estamos sempre a adicionar novos jogos e funcionalidades. A nossa equipa
+                        trabalha
+                        incansavelmente para garantir que tens acesso aos últimos lançamentos antes de qualquer outra
+                        plataforma.</p>
+                </div>
+            </div>
+
+            <h2 style="text-align: center; margin-top: 4rem;">Quem Somos?</h2>
+            <p style="text-align: center; margin-bottom: 2rem; color: var(--text-dim);">
+                Conhece a equipa por trás da DemoSlots.pt - apaixonados por tecnologia e jogos, dedicados a criar a
+                melhor experiência possível para ti.
+            </p>
+            <div class="team-grid">
+                <div class="team-card">
+                    <div class="team-avatar" style="background: linear-gradient(135deg, #8B5CF6, #7c3aed);">👨‍💻</div>
+                    <h3 style="margin-bottom: 0.5rem;">Diogo Silva</h3>
+                    <p style="font-size: 0.9rem; color: var(--text-dim); margin-bottom: 1rem;">Fundador & Tech Lead</p>
+                    <p style="font-size: 0.9rem; color: #CBD5E1;">10 anos de experiência em desenvolvimento web e
+                        sistemas de gaming.
+                        Apaixonado por criar experiências digitais excecionais.</p>
+                </div>
+                <div class="team-card">
+                    <div class="team-avatar" style="background: linear-gradient(135deg, #EC4899, #db2777);">👩‍🎨</div>
+                    <h3 style="margin-bottom: 0.5rem;">Ana Santos</h3>
+                    <p style="font-size: 0.9rem; color: var(--text-dim); margin-bottom: 1rem;">Head of Design</p>
+                    <p style="font-size: 0.9rem; color: #CBD5E1;">Designer UX/UI especializada em interfaces de gaming.
+                        Responsável por tornar a nossa plataforma visualmente deslumbrante e intuitiva.</p>
+                </div>
+                <div class="team-card">
+                    <div class="team-avatar" style="background: linear-gradient(135deg, #F59E0B, #d97706);">🎮</div>
+                    <h3 style="margin-bottom: 0.5rem;">Pedro Costa</h3>
+                    <p style="font-size: 0.9rem; color: var(--text-dim); margin-bottom: 1rem;">Game Tester & Community
+                        Manager</p>
+                    <p style="font-size: 0.9rem; color: #CBD5E1;">Jogador profissional e entusiasta de slots.
+                        Testa todos os jogos antes do lançamento e gere a nossa comunidade ativa.</p>
+                </div>
+                <div class="team-card">
+                    <div class="team-avatar" style="background: linear-gradient(135deg, #10B981, #059669);">💼</div>
+                    <h3 style="margin-bottom: 0.5rem;">Maria Ferreira</h3>
+                    <p style="font-size: 0.9rem; color: var(--text-dim); margin-bottom: 1rem;">Operations Manager</p>
+                    <p style="font-size: 0.9rem; color: #CBD5E1;">Garante que tudo funciona perfeitamente.
+                        Responsável pelas parcerias com fornecedores e pela qualidade do serviço.</p>
+                </div>
+            </div>
+
+            <h2 style="margin-top: 4rem;">Como Funciona?</h2>
+            <p>Na DemoSlots.pt, o processo é simples e direto:</p>
+            <ol style="margin-left: 2rem; color: #CBD5E1; line-height: 2; font-size: 1.1rem;">
+                <li><strong>Explora:</strong> Navega através das nossas 5.000+ slots demo completamente gratuitas</li>
+                <li><strong>Testa:</strong> Joga sem qualquer risco financeiro - usa moeda virtual ilimitada</li>
+                <li><strong>Aprende:</strong> Compreende as mecânicas, bónus e características de cada jogo</li>
+                <li><strong>Compartilha:</strong> Participa em torneios e compete com outros jogadores da comunidade
+                </li>
+                <li><strong>Decide:</strong> Quando estiveres pronto, consulta as nossas recomendações de casinos reais
+                </li>
+            </ol>
+
+            <h2 style="margin-top: 4rem;">O Que Nos Diferencia?</h2>
+            <div style="margin-top: 2rem;">
+                <div
+                    style="background: rgba(255, 255, 255, 0.03); padding: 2rem; border-radius: 12px; border-left: 4px solid var(--primary); margin-bottom: 1.5rem;">
+                    <h3 style="color: var(--primary); margin-bottom: 1rem;">✅ 100% Gratuito e Sem Registo</h3>
+                    <p>Não precisas de criar conta, fornecer dados pessoais ou fazer qualquer pagamento. Começa a jogar
+                        imediatamente!</p>
+                </div>
+                <div
+                    style="background: rgba(255, 255, 255, 0.03); padding: 2rem; border-radius: 12px; border-left: 4px solid var(--secondary); margin-bottom: 1.5rem;">
+                    <h3 style="color: var(--secondary); margin-bottom: 1rem;">✅ Atualizações Diárias</h3>
+                    <p>Adicionamos novos jogos todos os dias. Se há um jogo novo no mercado, encontra-o primeiro na
+                        DemoSlots.pt.</p>
+                </div>
+                <div
+                    style="background: rgba(255, 255, 255, 0.03); padding: 2rem; border-radius: 12px; border-left: 4px solid var(--accent);">
+                    <h3 style="color: var(--accent); margin-bottom: 1rem;">✅ Comunidade Ativa</h3>
+                    <p>Junta-te a milhares de jogadores portugueses em torneios, rankings e fóruns de discussão.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div>
+                    <div class="logo" style="margin-bottom: 1rem;">
+                        <a href="index.html" style="text-decoration:none;">
+                            <img src="images/logo.svg" alt="DemoSlots" height="50">
+                        </a>
+                    </div>
+                    <p class="text-dim" style="line-height: 1.6;">
+                        O teu destino #1 para slots demo em Portugal. Plataforma 100% social e gratuita para
+                        entretenimento.
+                    </p>
+                </div>
+
+                <div>
+                    <span class="footer-title">Plataformas</span>
+                    <ul class="footer-links">
+                        <li><a href="rankings.html">Top Rated</a></li>
+                        <li><a href="novos-casinos.html">Novos Casinos</a></li>
+                        <li><a href="mobile-apps.html">Mobile Apps</a></li>
+                        <li><a href="#">Sem Registo</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <span class="footer-title">Comunidade</span>
+                    <ul class="footer-links">
+                        <li><a href="tournaments.html">Torneios</a></li>
+                        <li><a href="profile.html">Leaderboards</a></li>
+                        <li><a href="community.html">Fórum</a></li>
+                        <li><a href="news.html">Blog</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <span class="footer-title">Informação</span>
+                    <ul class="footer-links">
+                        <li><a href="about.html">Sobre Nós</a></li>
+                        <li><a href="contact.html">Contacto</a></li>
+                        <li><a href="responsible-gaming.html">Jogo Responsável</a></li>
+                        <li><a href="#">Termos e Condições</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="copyright-bar">
+                © 2025 DemoSlots.pt - Todos os direitos reservados. 18+ | Joga Responsavelmente.
+            </div>
+        </div>
+    </footer>
+    <script>
+        // Search functionality in header
+        document.addEventListener('DOMContentLoaded', function () {
+            const searchInput = document.querySelector('.search-bar input');
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function (e) {
+                    if (e.key === 'Enter') {
+                        const query = this.value.trim();
+                        if (query) {
+                            window.location.href = `games.html?search=${encodeURIComponent(query)}`;
+                        }
+                    }
+                });
+            }
+        });
+
+        // Mobile Menu Toggle
+        const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+        const mainNav = document.getElementById('mainNav');
+
+        if (mobileMenuToggle && mainNav) {
+            mobileMenuToggle.addEventListener('click', function () {
+                mainNav.classList.toggle('mobile-open');
+            });
+
+            // Close menu when clicking outside
+            document.addEventListener('click', function (event) {
+                if (!mainNav.contains(event.target) && !mobileMenuToggle.contains(event.target)) {
+                    mainNav.classList.remove('mobile-open');
+                }
+            });
+        }
+    </script>
+
+    <!-- Chatbot Script -->
+    <script src="chatbot.js"></script>
+</body>
+
+</html>

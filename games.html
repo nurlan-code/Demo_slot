@@ -1,0 +1,1189 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jogos Grátis | DemoSlots.pt</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <style>
+        /* CORE CSS REUSE */
+        :root {
+            --primary: #8B5CF6;
+            --secondary: #EC4899;
+            --accent: #F59E0B;
+            --success: #10B981;
+            --dark-bg: #0F172A;
+            --dark-card: #1E293B;
+            --text-light: #F8FAFC;
+            --text-dim: #94A3B8;
+            --border: rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: var(--dark-bg);
+            color: var(--text-light);
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: 0.3s;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .flex {
+            display: flex;
+        }
+
+        .grid {
+            display: grid;
+        }
+
+        .items-center {
+            align-items: center;
+        }
+
+        .justify-between {
+            justify-content: space-between;
+        }
+
+        .gap-4 {
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 10px 24px;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            border: none;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid var(--border);
+        }
+
+        .text-accent {
+            color: var(--accent);
+        }
+
+        .text-dim {
+            color: var(--text-dim);
+        }
+
+        .text-secondary {
+            color: var(--secondary);
+        }
+
+        /* HEADER REUSE */
+        header {
+            position: relative;
+            z-index: 1000;
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 0;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: linear-gradient(to right, #8B5CF6, #EC4899, #F59E0B);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-link {
+            font-weight: 500;
+            color: var(--text-dim);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: white;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        /* Dropdown Menu */
+        .nav-dropdown {
+            position: relative;
+        }
+
+        .nav-dropdown>.nav-link {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .nav-dropdown>.nav-link::after {
+            content: '▼';
+            font-size: 0.7rem;
+            transition: transform 0.3s;
+        }
+
+        .nav-dropdown:hover>.nav-link::after {
+            transform: rotate(180deg);
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: var(--dark-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            min-width: 200px;
+            padding: 0.5rem 0;
+            margin-top: 0.5rem;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+        }
+
+        .nav-dropdown:hover .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-menu a {
+            display: block;
+            padding: 0.75rem 1.5rem;
+            color: var(--text-dim);
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .dropdown-menu a:hover {
+            color: white;
+            background: rgba(255, 255, 255, 0.05);
+            padding-left: 2rem;
+        }
+
+        /* Mobile Menu Toggle */
+        .mobile-menu-toggle {
+            display: none;
+            background: transparent;
+            border: 1px solid var(--border);
+            color: white;
+            padding: 0.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.5rem;
+        }
+
+        .mobile-menu-toggle:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        header .container {
+            position: relative;
+        }
+
+        .search-bar {
+            background: var(--dark-card);
+            border: 1px solid var(--border);
+            border-radius: 50px;
+            padding: 0.5rem 1rem;
+            display: flex;
+            align-items: center;
+            width: 200px;
+        }
+
+        .search-bar input {
+            background: transparent;
+            border: none;
+            color: white;
+            outline: none;
+            width: 100%;
+        }
+
+        /* GAMES PAGE SPECIFIC */
+        .games-hero {
+            background: linear-gradient(#2D1B69, var(--dark-bg));
+            padding: 3rem 0;
+            text-align: center;
+        }
+
+        .search-lg {
+            max-width: 600px;
+            margin: 2rem auto;
+            position: relative;
+        }
+
+        .search-lg input {
+            width: 100%;
+            padding: 15px 20px 15px 50px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--border);
+            border-radius: 50px;
+            color: white;
+            font-size: 1.1rem;
+            outline: none;
+        }
+
+        .search-lg span {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        /* GAME FINDER QUIZ */
+        .quiz-box {
+            background: var(--dark-card);
+            border: 2px solid var(--primary);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 3rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .quiz-title {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #F8FAFC;
+        }
+
+        .quiz-options {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .quiz-option {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 10px 20px;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: 0.3s;
+            border: 1px solid transparent;
+        }
+
+        .quiz-option:hover,
+        .quiz-option.selected {
+            background: var(--primary);
+            color: white;
+            border-color: #A78BFA;
+        }
+
+        /* LAYOUT */
+        .games-layout {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            gap: 2rem;
+        }
+
+        /* SIDEBAR */
+        .filters {
+            background: var(--dark-card);
+            padding: 1.5rem;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            height: fit-content;
+        }
+
+        .filter-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .filter-title {
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .filter-list label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 8px;
+            color: var(--text-dim);
+            font-size: 0.9rem;
+            cursor: pointer;
+        }
+
+        .filter-list input {
+            accent-color: var(--primary);
+        }
+
+        /* GAMES GRID */
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .game-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            transition: 0.3s;
+            position: relative;
+        }
+
+        .game-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--secondary);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .game-thumb {
+            height: 150px;
+            background: #475569;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            position: relative;
+        }
+
+        .game-hover {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: 0.3s;
+        }
+
+        .game-card:hover .game-hover {
+            opacity: 1;
+        }
+
+        .game-info {
+            padding: 15px;
+        }
+
+        .game-title {
+            font-weight: 700;
+            margin-bottom: 5px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .game-provider {
+            font-size: 0.8rem;
+            color: var(--text-dim);
+        }
+
+        .game-rating {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+        }
+
+        /* FOOTER */
+        footer {
+            background: #020617;
+            padding: 4rem 0 0 0;
+            margin-top: 4rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 4rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-title {
+            color: white;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            display: block;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-links a {
+            color: var(--text-dim);
+        }
+
+        .footer-links a:hover {
+            color: var(--primary);
+        }
+
+        .copyright-bar {
+            background: #000;
+            padding: 1.5rem 0;
+            text-align: center;
+            color: #64748B;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        /* Desktop (992px - 1024px) */
+        @media (max-width: 1024px) {
+            .container {
+                padding: 0 16px;
+            }
+
+            .games-layout {
+                grid-template-columns: 220px 1fr;
+                gap: 1.5rem;
+            }
+
+            .games-grid {
+                grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            }
+        }
+
+        /* Small Desktop / Large Tablet (768px - 992px) */
+        @media (max-width: 992px) {
+            .games-layout {
+                grid-template-columns: 200px 1fr;
+                gap: 1.25rem;
+            }
+
+            .games-grid {
+                grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+                gap: 1.25rem;
+            }
+
+            .games-hero h1 {
+                font-size: 2rem;
+            }
+
+            .search-lg {
+                max-width: 100%;
+            }
+
+            .quiz-box {
+                padding: 1.5rem;
+            }
+
+            .quiz-options {
+                gap: 0.75rem;
+            }
+        }
+
+        /* Tablet (576px - 768px) */
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 15px;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .mobile-menu-toggle {
+                display: block;
+            }
+
+            .games-hero {
+                padding: 2rem 0;
+            }
+
+            .games-hero h1 {
+                font-size: 1.75rem;
+            }
+
+            .search-lg input {
+                padding: 12px 18px 12px 45px;
+                font-size: 1rem;
+            }
+
+            .games-layout {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .filters {
+                order: 2;
+                position: sticky;
+                top: 80px;
+                z-index: 100;
+            }
+
+            .games-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+                gap: 1rem;
+            }
+
+            .game-thumb {
+                height: 120px;
+                font-size: 2.5rem;
+            }
+
+            .quiz-box {
+                padding: 1.25rem;
+            }
+
+            .quiz-title {
+                font-size: 1.25rem;
+            }
+
+            .quiz-options {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .quiz-option {
+                width: 100%;
+            }
+
+            nav {
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: var(--dark-card);
+                border-bottom: 1px solid var(--border);
+                flex-direction: column;
+                padding: 1rem;
+                opacity: 0;
+                visibility: hidden;
+                transform: translateY(-20px);
+                transition: all 0.3s;
+                max-height: 0;
+                overflow: hidden;
+            }
+
+            nav.mobile-open {
+                opacity: 1;
+                visibility: visible;
+                transform: translateY(0);
+                max-height: 500px;
+            }
+
+            .nav-link {
+                display: block;
+                width: 100%;
+                padding: 0.75rem 1rem;
+            }
+
+            .nav-dropdown>.nav-link {
+                justify-content: space-between;
+            }
+
+            .dropdown-menu {
+                position: static;
+                opacity: 1;
+                visibility: visible;
+                transform: none;
+                box-shadow: none;
+                border: none;
+                border-top: 1px solid var(--border);
+                border-radius: 0;
+                margin-top: 0;
+                background: rgba(0, 0, 0, 0.3);
+            }
+
+            .search-bar {
+                width: 100%;
+                margin: 0.5rem 0;
+            }
+
+            header .container {
+                flex-wrap: wrap;
+                gap: 1rem;
+            }
+
+            .logo {
+                font-size: 1.2rem;
+                flex: 1;
+                min-width: 0;
+            }
+
+            .logo span {
+                font-size: 1.5rem !important;
+            }
+
+            .mobile-menu-toggle {
+                order: 2;
+            }
+
+            .header-right {
+                order: 3;
+                width: 100%;
+                display: flex;
+                gap: 0.5rem;
+                margin-top: 0;
+            }
+
+            .search-bar {
+                flex: 1;
+                min-width: 0;
+                width: auto;
+                margin: 0;
+            }
+
+            .search-bar input {
+                font-size: 0.85rem;
+                padding: 0.5rem 0.75rem;
+            }
+
+            .header-right .btn {
+                padding: 8px 12px;
+                font-size: 0.85rem;
+                white-space: nowrap;
+            }
+
+            .header-right .btn span {
+                display: none;
+            }
+        }
+
+        /* Small Tablet / Large Phone (480px - 576px) */
+        @media (max-width: 576px) {
+            .container {
+                padding: 0 12px;
+            }
+
+            .games-hero {
+                padding: 1.5rem 0;
+            }
+
+            .games-hero h1 {
+                font-size: 1.5rem;
+            }
+
+            .search-lg input {
+                padding: 10px 15px 10px 40px;
+                font-size: 0.95rem;
+            }
+
+            .games-grid {
+                grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+                gap: 0.875rem;
+            }
+
+            .game-thumb {
+                height: 100px;
+                font-size: 2rem;
+            }
+
+            .game-info {
+                padding: 12px;
+            }
+
+            .filters {
+                padding: 1.25rem;
+            }
+
+            .quiz-box {
+                padding: 1rem;
+                margin-bottom: 2rem;
+            }
+        }
+
+        /* Small Phone (320px - 480px) */
+        @media (max-width: 480px) {
+            .container {
+                padding: 0 10px;
+            }
+
+            .logo {
+                font-size: 1rem;
+            }
+
+            .logo span {
+                font-size: 1.2rem !important;
+            }
+
+            .header-right {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .search-bar {
+                width: 100%;
+            }
+
+            .games-hero {
+                padding: 1.25rem 0;
+            }
+
+            .games-hero h1 {
+                font-size: 1.35rem;
+            }
+
+            .search-lg input {
+                padding: 10px 12px 10px 35px;
+                font-size: 0.9rem;
+            }
+
+            .games-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 0.75rem;
+            }
+
+            .game-thumb {
+                height: 90px;
+                font-size: 1.75rem;
+            }
+
+            .game-info {
+                padding: 10px;
+            }
+
+            .game-title {
+                font-size: 0.9rem;
+            }
+
+            .game-provider {
+                font-size: 0.75rem;
+            }
+
+            .filters {
+                padding: 1rem;
+            }
+
+            .filter-title {
+                font-size: 0.9rem;
+            }
+
+            .quiz-box {
+                padding: 0.875rem;
+            }
+
+            .quiz-title {
+                font-size: 1.1rem;
+            }
+        }
+
+        /* Extra Small Phone (320px and below) */
+        @media (max-width: 320px) {
+            .container {
+                padding: 0 8px;
+            }
+
+            .games-hero h1 {
+                font-size: 1.2rem;
+            }
+
+            .games-grid {
+                gap: 0.5rem;
+            }
+
+            .game-thumb {
+                height: 80px;
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- HEADER -->
+    <header>
+        <div class="container flex justify-between items-center">
+            <a href="index.html" class="logo">
+                <img src="images/logo.svg" alt="DemoSlots" height="50">
+            </a>
+            <button class="mobile-menu-toggle" id="mobileMenuToggle">☰</button>
+
+            <nav class="flex gap-2" id="mainNav">
+                <a href="index.html" class="nav-link">Início</a>
+
+                <div class="nav-dropdown">
+                    <a href="rankings.html" class="nav-link">Plataformas</a>
+                    <div class="dropdown-menu">
+                        <a href="rankings.html">Top Sites</a>
+                        <a href="novos-casinos.html">Novos Casinos</a>
+                        <a href="mobile-apps.html">Mobile Apps</a>
+                    </div>
+                </div>
+
+                <div class="nav-dropdown">
+                    <a href="games.html" class="nav-link active">Jogos</a>
+                    <div class="dropdown-menu">
+                        <a href="games.html" class="active">Todos Jogos</a>
+                        <a href="providers.html">Providers</a>
+                    </div>
+                </div>
+
+                <a href="bonuses.html" class="nav-link">Bónus</a>
+
+                <div class="nav-dropdown">
+                    <a href="community.html" class="nav-link">Comunidade</a>
+                    <div class="dropdown-menu">
+                        <a href="tournaments.html">Torneios</a>
+                        <a href="community.html">Fórum</a>
+                        <a href="profile.html">Leaderboards</a>
+                    </div>
+                </div>
+            </nav>
+
+            <div class="flex gap-4 items-center header-right">
+                <div class="search-bar">
+                    <span style="margin-right: 8px;">🔍</span>
+                    <input type="text" placeholder="Procurar...">
+                </div>
+                <a href="profile.html" class="btn btn-secondary" style="padding: 8px 16px;">
+                    👤 <span style="font-size: 0.9rem;">Perfil</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- HERO SEARCH -->
+    <div class="games-hero">
+        <div class="container">
+            <h1 style="font-size: 2.5rem; margin-bottom: 1rem;">🎮 Descobre o Teu Próximo Jogo</h1>
+            <p class="text-dim">5,000+ Jogos Demo • 50+ Fornecedores • 100% Grátis</p>
+
+            <div class="search-lg">
+                <span>🔍</span>
+                <input type="text" placeholder="Procurar por nome, fornecedor ou tema...">
+            </div>
+
+            <button class="btn btn-primary" onclick="showRandom()">🎲 Estou com sorte - Jogo Aleatório!</button>
+        </div>
+    </div>
+
+    <!-- QUIZ -->
+    <div class="container">
+        <div class="quiz-box">
+            <div class="text-center">
+                <div style="font-size: 2rem; margin-bottom: 10px;">🎯</div>
+                <h3 class="quiz-title">Não sabes o que jogar?</h3>
+                <p class="text-dim">Responde a uma pergunta rápida:</p>
+
+                <h4 style="margin-top: 1.5rem;">Qual o teu estado de espírito hoje?</h4>
+                <div class="quiz-options">
+                    <div class="quiz-option" onclick="selectMood(this)">😊 Relaxado</div>
+                    <div class="quiz-option" onclick="selectMood(this)">🔥 Energético</div>
+                    <div class="quiz-option" onclick="selectMood(this)">🎉 Festivo</div>
+                    <div class="quiz-option" onclick="selectMood(this)">💎 Ambicioso</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div class="container games-layout">
+
+        <!-- SIDEBAR -->
+        <aside class="filters">
+            <div class="filter-group">
+                <div class="filter-title">Tipo de Jogo</div>
+                <div class="filter-list">
+                    <label><input type="checkbox" checked> Slots (5,247)</label>
+                    <label><input type="checkbox"> Mesa (312)</label>
+                    <label><input type="checkbox"> Live (156)</label>
+                    <label><input type="checkbox"> Jackpots (203)</label>
+                </div>
+            </div>
+
+            <div class="filter-group">
+                <div class="filter-title">Fornecedor</div>
+                <div class="filter-list">
+                    <label><input type="checkbox"> NetEnt</label>
+                    <label><input type="checkbox"> Pragmatic</label>
+                    <label><input type="checkbox"> Play'n GO</label>
+                    <label><input type="checkbox"> Evolution</label>
+                </div>
+            </div>
+
+            <div class="filter-group">
+                <div class="filter-title">Volatilidade</div>
+                <div class="filter-list">
+                    <label><input type="checkbox"> Alta</label>
+                    <label><input type="checkbox"> Média</label>
+                    <label><input type="checkbox"> Baixa</label>
+                </div>
+            </div>
+
+            <button class="btn btn-secondary" style="width: 100%;">Aplicar Filtros</button>
+        </aside>
+
+        <!-- GRID -->
+        <main>
+            <div class="flex justify-between items-center" style="margin-bottom: 2rem;">
+                <h2 style="font-size: 1.5rem;">Todos os Jogos (5,247)</h2>
+                <div style="font-size: 0.9rem;" class="text-dim">Ordenar por: <span
+                        style="color: white; font-weight: 600;">Popularidade ▼</span></div>
+            </div>
+
+            <div class="games-grid">
+                <!-- Game 1 -->
+                <div class="game-card">
+                    <div class="game-rating">⭐ 4.9</div>
+                    <div class="game-thumb" style="background: #be123c;">📚
+                        <div class="game-hover">
+                            <button class="btn btn-primary" style="padding: 8px 20px;">JOGAR</button>
+                        </div>
+                    </div>
+                    <div class="game-info">
+                        <div class="game-title">Book of Dead</div>
+                        <div class="game-provider">Play'n GO</div>
+                    </div>
+                </div>
+
+                <!-- Game 2 -->
+                <div class="game-card">
+                    <div class="game-rating">⭐ 4.8</div>
+                    <div class="game-thumb" style="background: #4c1d95;">✨
+                        <div class="game-hover">
+                            <button class="btn btn-primary" style="padding: 8px 20px;">JOGAR</button>
+                        </div>
+                    </div>
+                    <div class="game-info">
+                        <div class="game-title">Starburst</div>
+                        <div class="game-provider">NetEnt</div>
+                    </div>
+                </div>
+
+                <!-- Game 3 -->
+                <div class="game-card">
+                    <div class="game-rating">⭐ 4.7</div>
+                    <div class="game-thumb" style="background: #b45309;">🐕
+                        <div class="game-hover">
+                            <button class="btn btn-primary" style="padding: 8px 20px;">JOGAR</button>
+                        </div>
+                    </div>
+                    <div class="game-info">
+                        <div class="game-title">The Dog House</div>
+                        <div class="game-provider">Pragmatic Play</div>
+                    </div>
+                </div>
+
+                <!-- Game 4 -->
+                <div class="game-card">
+                    <div class="game-rating">⭐ 4.9</div>
+                    <div class="game-thumb" style="background: #047857;">🍬
+                        <div class="game-hover">
+                            <button class="btn btn-primary" style="padding: 8px 20px;">JOGAR</button>
+                        </div>
+                    </div>
+                    <div class="game-info">
+                        <div class="game-title">Sweet Bonanza</div>
+                        <div class="game-provider">Pragmatic Play</div>
+                    </div>
+                </div>
+
+                <!-- Game 5 -->
+                <div class="game-card">
+                    <div class="game-rating">⭐ 4.6</div>
+                    <div class="game-thumb" style="background: #be185d;">🤠
+                        <div class="game-hover">
+                            <button class="btn btn-primary" style="padding: 8px 20px;">JOGAR</button>
+                        </div>
+                    </div>
+                    <div class="game-info">
+                        <div class="game-title">Wanted Dead or a Wild</div>
+                        <div class="game-provider">Hacksaw</div>
+                    </div>
+                </div>
+
+                <!-- Game 6 -->
+                <div class="game-card">
+                    <div class="game-rating">⭐ 4.8</div>
+                    <div class="game-thumb" style="background: #1e3a8a;">🎣
+                        <div class="game-hover">
+                            <button class="btn btn-primary" style="padding: 8px 20px;">JOGAR</button>
+                        </div>
+                    </div>
+                    <div class="game-info">
+                        <div class="game-title">Big Bass Bonanza</div>
+                        <div class="game-provider">Reel Kingdom</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center" style="margin-top: 3rem;">
+                <button class="btn btn-secondary">Carregar Mais Jogos</button>
+            </div>
+        </main>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div>
+                    <div class="logo" style="margin-bottom: 1rem;">
+                        <a href="index.html" style="text-decoration:none;">
+                            <img src="images/logo.svg" alt="DemoSlots" height="50">
+                        </a>
+                    </div>
+                    <p class="text-dim" style="line-height: 1.6;">
+                        O teu destino #1 para slots demo em Portugal. Plataforma 100% social e gratuita para
+                        entretenimento.
+                    </p>
+                </div>
+
+                <div>
+                    <span class="footer-title">Plataformas</span>
+                    <ul class="footer-links">
+                        <li><a href="rankings.html">Top Rated</a></li>
+                        <li><a href="novos-casinos.html">Novos Casinos</a></li>
+                        <li><a href="mobile-apps.html">Mobile Apps</a></li>
+                        <li><a href="#">Sem Registo</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <span class="footer-title">Comunidade</span>
+                    <ul class="footer-links">
+                        <li><a href="tournaments.html">Torneios</a></li>
+                        <li><a href="profile.html">Leaderboards</a></li>
+                        <li><a href="community.html">Fórum</a></li>
+                        <li><a href="news.html">Blog</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <span class="footer-title">Informação</span>
+                    <ul class="footer-links">
+                        <li><a href="about.html">Sobre Nós</a></li>
+                        <li><a href="contact.html">Contacto</a></li>
+                        <li><a href="responsible-gaming.html">Jogo Responsável</a></li>
+                        <li><a href="#">Termos e Condições</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="copyright-bar">
+                © 2025 DemoSlots.pt - Todos os direitos reservados. 18+ | Joga Responsavelmente.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function selectMood(el) {
+            document.querySelectorAll('.quiz-option').forEach(o => o.classList.remove('selected'));
+            el.classList.add('selected');
+            setTimeout(() => {
+                const suggestions = {
+                    '😊 Relaxado': 'Starburst',
+                    '🔥 Energético': 'Gonzo\'s Quest',
+                    '🎉 Festivo': 'Reactoonz',
+                    '💎 Ambicioso': 'Book of Dead'
+                };
+                const mood = el.textContent.trim();
+                const suggestion = suggestions[mood] || 'Starburst';
+                alert(`Nós sugerimos: ${suggestion}! A carregar...`);
+            }, 500);
+        }
+
+        function showRandom() {
+            const games = ['Book of Dead', 'Starburst', 'Gonzo\'s Quest', 'Reactoonz', 'Sweet Bonanza'];
+            const randomGame = games[Math.floor(Math.random() * games.length)];
+            alert(`A selecionar um jogo aleatório para ti... ${randomGame}`);
+        }
+
+        // Search functionality
+        document.addEventListener('DOMContentLoaded', function () {
+            const searchInput = document.querySelector('.search-lg input');
+            const gameCards = document.querySelectorAll('.game-card');
+
+            if (searchInput) {
+                searchInput.addEventListener('input', function (e) {
+                    const searchTerm = e.target.value.toLowerCase();
+
+                    gameCards.forEach(card => {
+                        const title = card.querySelector('.game-title')?.textContent.toLowerCase() || '';
+                        const provider = card.querySelector('.game-provider')?.textContent.toLowerCase() || '';
+
+                        if (title.includes(searchTerm) || provider.includes(searchTerm)) {
+                            card.style.display = '';
+                        } else {
+                            card.style.display = searchTerm === '' ? '' : 'none';
+                        }
+                    });
+                });
+            }
+
+            // Filter functionality
+            const filterCheckboxes = document.querySelectorAll('.filter-list input[type="checkbox"]');
+            const applyFiltersBtn = document.querySelector('.filters .btn-secondary');
+
+            if (applyFiltersBtn) {
+                applyFiltersBtn.addEventListener('click', function () {
+                    const selectedTypes = Array.from(document.querySelectorAll('.filter-group:first-of-type input[type="checkbox"]:checked'))
+                        .map(cb => cb.parentElement.textContent.trim());
+
+                    // Simple filter logic - can be expanded
+                    gameCards.forEach(card => {
+                        card.style.display = '';
+                    });
+                });
+            }
+        });
+    </script>
+
+    <script>
+        // Mobile Menu Toggle
+        const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+        const mainNav = document.getElementById('mainNav');
+
+        if (mobileMenuToggle && mainNav) {
+            mobileMenuToggle.addEventListener('click', function () {
+                mainNav.classList.toggle('mobile-open');
+            });
+
+            // Close menu when clicking outside
+            document.addEventListener('click', function (event) {
+                if (!mainNav.contains(event.target) && !mobileMenuToggle.contains(event.target)) {
+                    mainNav.classList.remove('mobile-open');
+                }
+            });
+        }
+    </script>
+
+    <!-- Chatbot Script -->
+    <script src="chatbot.js"></script>
+</body>
+
+</html>

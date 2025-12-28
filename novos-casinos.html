@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Novos Casinos | DemoSlots.pt</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --primary: #8B5CF6;
+            --secondary: #EC4899;
+            --accent: #F59E0B;
+            --success: #10B981;
+            --dark-bg: #0F172A;
+            --dark-card: #1E293B;
+            --text-light: #F8FAFC;
+            --text-dim: #94A3B8;
+            --border: rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: var(--dark-bg);
+            color: var(--text-light);
+            overflow-x: hidden;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: 0.3s;
+        }
+
+        button {
+            cursor: pointer;
+            border: none;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .flex {
+            display: flex;
+        }
+
+        .grid {
+            display: grid;
+        }
+
+        .items-center {
+            align-items: center;
+        }
+
+        .justify-between {
+            justify-content: space-between;
+        }
+
+        .gap-2 {
+            gap: 0.5rem;
+        }
+
+        .gap-4 {
+            gap: 1rem;
+        }
+
+        .text-dim {
+            color: var(--text-dim);
+        }
+
+        .text-secondary {
+            color: var(--secondary);
+        }
+
+        .btn {
+            padding: 10px 24px;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            border: none;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid var(--border);
+        }
+
+        header {
+            position: relative;
+            z-index: 1000;
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 0;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: linear-gradient(to right, #8B5CF6, #EC4899, #F59E0B);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .nav-link {
+            font-weight: 500;
+            color: var(--text-dim);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: white;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        /* Dropdown Menu */
+        .nav-dropdown {
+            position: relative;
+        }
+
+        .nav-dropdown>.nav-link {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .nav-dropdown>.nav-link::after {
+            content: '▼';
+            font-size: 0.7rem;
+            transition: transform 0.3s;
+        }
+
+        .nav-dropdown:hover>.nav-link::after {
+            transform: rotate(180deg);
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: var(--dark-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            min-width: 200px;
+            padding: 0.5rem 0;
+            margin-top: 0.5rem;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+        }
+
+        .nav-dropdown:hover .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-menu a {
+            display: block;
+            padding: 0.75rem 1.5rem;
+            color: var(--text-dim);
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .dropdown-menu a:hover {
+            color: white;
+            background: rgba(255, 255, 255, 0.05);
+            padding-left: 2rem;
+        }
+
+        .mobile-menu-toggle {
+            display: none;
+            background: transparent;
+            border: 1px solid var(--border);
+            color: white;
+            padding: 0.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.5rem;
+        }
+
+        .mobile-menu-toggle:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        header .container {
+            position: relative;
+        }
+
+        .search-bar {
+            background: var(--dark-card);
+            border: 1px solid var(--border);
+            border-radius: 50px;
+            padding: 0.5rem 1rem;
+            display: flex;
+            align-items: center;
+            width: 200px;
+        }
+
+        .search-bar input {
+            background: transparent;
+            border: none;
+            color: white;
+            outline: none;
+            width: 100%;
+        }
+
+        .page-hero {
+            background: linear-gradient(135deg, #2D1B69, #1E1B4B);
+            padding: 4rem 0;
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .page-hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(to right, #8B5CF6, #EC4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .new-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #EC4899, #F59E0B);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        .casino-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .casino-card {
+            background: var(--dark-card);
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .casino-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(139, 92, 246, 0.3);
+            border-color: var(--primary);
+        }
+
+        .casino-header {
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.2), rgba(236, 72, 153, 0.2));
+            padding: 2rem;
+            text-align: center;
+            position: relative;
+        }
+
+        .new-tag {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: var(--success);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+
+        .casino-logo {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+
+        .casino-name {
+            font-size: 1.8rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+        }
+
+        .casino-rating {
+            color: #F59E0B;
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .casino-body {
+            padding: 2rem;
+        }
+
+        .casino-features {
+            list-style: none;
+            margin: 1.5rem 0;
+        }
+
+        .casino-features li {
+            padding: 0.75rem 0;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .casino-features li:last-child {
+            border-bottom: none;
+        }
+
+        .casino-features li::before {
+            content: '✓';
+            color: var(--success);
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+
+        .casino-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin: 1.5rem 0;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 12px;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: var(--text-dim);
+            margin-top: 5px;
+        }
+
+        footer {
+            background: #020617;
+            padding: 4rem 0 0 0;
+            margin-top: 4rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 4rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-title {
+            color: white;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            display: block;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-links a {
+            color: var(--text-dim);
+        }
+
+        .footer-links a:hover {
+            color: var(--primary);
+        }
+
+        .copyright-bar {
+            background: #000;
+            padding: 1.5rem 0;
+            text-align: center;
+            color: #64748B;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .mobile-menu-toggle {
+                display: block;
+            }
+
+            nav {
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: var(--dark-card);
+                border-bottom: 1px solid var(--border);
+                flex-direction: column;
+                padding: 1rem;
+                opacity: 0;
+                visibility: hidden;
+                transform: translateY(-20px);
+                transition: all 0.3s;
+                max-height: 0;
+                overflow: hidden;
+            }
+
+            nav.mobile-open {
+                opacity: 1;
+                visibility: visible;
+                transform: translateY(0);
+                max-height: 500px;
+            }
+
+            .nav-link {
+                display: block;
+                width: 100%;
+                padding: 0.75rem 1rem;
+            }
+
+            .nav-dropdown>.nav-link {
+                justify-content: space-between;
+            }
+
+            .dropdown-menu {
+                position: static;
+                opacity: 1;
+                visibility: visible;
+                transform: none;
+                box-shadow: none;
+                border: none;
+                border-top: 1px solid var(--border);
+                border-radius: 0;
+                margin-top: 0;
+                background: rgba(0, 0, 0, 0.3);
+            }
+
+            header .container {
+                flex-wrap: wrap;
+                gap: 1rem;
+            }
+
+            .logo {
+                font-size: 1.2rem;
+                flex: 1;
+                min-width: 0;
+            }
+
+            .logo span {
+                font-size: 1.5rem !important;
+            }
+
+            .mobile-menu-toggle {
+                order: 2;
+            }
+
+            .header-right {
+                order: 3;
+                width: 100%;
+                display: flex;
+                gap: 0.5rem;
+                margin-top: 0;
+            }
+
+            .search-bar {
+                flex: 1;
+                min-width: 0;
+                width: auto;
+                margin: 0;
+            }
+
+            .search-bar input {
+                font-size: 0.85rem;
+                padding: 0.5rem 0.75rem;
+            }
+
+            .header-right .btn {
+                padding: 8px 12px;
+                font-size: 0.85rem;
+                white-space: nowrap;
+            }
+
+            .header-right .btn span {
+                display: none;
+            }
+
+            .casino-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .page-hero h1 {
+                font-size: 2rem;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .logo {
+                font-size: 1rem;
+            }
+
+            .header-right {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .search-bar {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="container flex justify-between items-center">
+            <a href="index.html" class="logo">
+                <img src="images/logo.svg" alt="DemoSlots" height="50">
+            </a>
+
+            <button class="mobile-menu-toggle" id="mobileMenuToggle">☰</button>
+
+            <nav class="flex gap-2" id="mainNav">
+                <a href="index.html" class="nav-link">Início</a>
+
+                <div class="nav-dropdown">
+                    <a href="rankings.html" class="nav-link active">Plataformas</a>
+                    <div class="dropdown-menu">
+                        <a href="rankings.html">Top Sites</a>
+                        <a href="novos-casinos.html" class="active">Novos Casinos</a>
+                        <a href="mobile-apps.html">Mobile Apps</a>
+                    </div>
+                </div>
+
+                <div class="nav-dropdown">
+                    <a href="games.html" class="nav-link">Jogos</a>
+                    <div class="dropdown-menu">
+                        <a href="games.html">Todos Jogos</a>
+                        <a href="providers.html">Providers</a>
+                    </div>
+                </div>
+
+                <a href="bonuses.html" class="nav-link">Bónus</a>
+
+                <div class="nav-dropdown">
+                    <a href="community.html" class="nav-link">Comunidade</a>
+                    <div class="dropdown-menu">
+                        <a href="tournaments.html">Torneios</a>
+                        <a href="community.html">Fórum</a>
+                        <a href="profile.html">Leaderboards</a>
+                    </div>
+                </div>
+            </nav>
+
+            <div class="flex gap-4 items-center header-right">
+                <div class="search-bar">
+                    <span style="margin-right: 8px;">🔍</span>
+                    <input type="text" placeholder="Procurar...">
+                </div>
+                <a href="profile.html" class="btn btn-secondary" style="padding: 8px 16px;">
+                    👤 <span style="font-size: 0.9rem;">Perfil</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <div class="page-hero">
+        <div class="container">
+            <div class="new-badge">🆕 NOVO</div>
+            <h1>Novos Casinos em Portugal</h1>
+            <p class="text-dim" style="font-size: 1.2rem; max-width: 600px; margin: 0 auto;">
+                Descobre as plataformas mais recentes do mercado. Novos casinos com as melhores ofertas e
+                funcionalidades inovadoras.
+            </p>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="casino-grid">
+            <!-- Casino 1 -->
+            <div class="casino-card">
+                <div class="casino-header">
+                    <span class="new-tag">NOVO</span>
+                    <div class="casino-logo">🎲</div>
+                    <div class="casino-name">DiamondSlots PT</div>
+                    <div class="casino-rating">⭐⭐⭐⭐⭐ 9.8</div>
+                    <p class="text-dim">Lançado em Janeiro 2025</p>
+                </div>
+                <div class="casino-body">
+                    <p style="margin-bottom: 1.5rem; color: #CBD5E1;">
+                        A mais recente adição ao mercado português, com tecnologia de ponta e experiência de utilizador
+                        excepcional.
+                    </p>
+
+                    <ul class="casino-features">
+                        <li>50,000 moedas grátis na inscrição</li>
+                        <li>Mais de 500 jogos disponíveis</li>
+                        <li>Interface totalmente em Português</li>
+                        <li>Suporte 24/7 por chat ao vivo</li>
+                    </ul>
+
+                    <div class="casino-stats">
+                        <div class="stat-item">
+                            <div class="stat-value">500+</div>
+                            <div class="stat-label">Jogos</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">9.8</div>
+                            <div class="stat-label">Avaliação</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">24/7</div>
+                            <div class="stat-label">Suporte</div>
+                        </div>
+                    </div>
+
+                    <a href="platform-detail.html" class="btn btn-primary"
+                        style="width: 100%; justify-content: center; margin-top: 1rem;">
+                        🎮 Explorar Agora
+                    </a>
+                </div>
+            </div>
+
+            <!-- Casino 2 -->
+            <div class="casino-card">
+                <div class="casino-header">
+                    <span class="new-tag">NOVO</span>
+                    <div class="casino-logo">🎰</div>
+                    <div class="casino-name">GoldenSpins Lisboa</div>
+                    <div class="casino-rating">⭐⭐⭐⭐⭐ 9.6</div>
+                    <p class="text-dim">Lançado em Dezembro 2024</p>
+                </div>
+                <div class="casino-body">
+                    <p style="margin-bottom: 1.5rem; color: #CBD5E1;">
+                        Plataforma moderna com foco em jogos de mesa e experiência premium. Perfeito para jogadores
+                        exigentes.
+                    </p>
+
+                    <ul class="casino-features">
+                        <li>30,000 moedas grátis + rodadas bónus</li>
+                        <li>Jogos ao vivo com dealers reais</li>
+                        <li>Torneios semanais exclusivos</li>
+                        <li>Programa VIP premium</li>
+                    </ul>
+
+                    <div class="casino-stats">
+                        <div class="stat-item">
+                            <div class="stat-value">350+</div>
+                            <div class="stat-label">Jogos</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">9.6</div>
+                            <div class="stat-label">Avaliação</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">VIP</div>
+                            <div class="stat-label">Programa</div>
+                        </div>
+                    </div>
+
+                    <a href="platform-detail.html" class="btn btn-primary"
+                        style="width: 100%; justify-content: center; margin-top: 1rem;">
+                        🎮 Explorar Agora
+                    </a>
+                </div>
+            </div>
+
+            <!-- Casino 3 -->
+            <div class="casino-card">
+                <div class="casino-header">
+                    <span class="new-tag">NOVO</span>
+                    <div class="casino-logo">💎</div>
+                    <div class="casino-name">LuckyCrown PT</div>
+                    <div class="casino-rating">⭐⭐⭐⭐⭐ 9.5</div>
+                    <p class="text-dim">Lançado em Novembro 2024</p>
+                </div>
+                <div class="casino-body">
+                    <p style="margin-bottom: 1.5rem; color: #CBD5E1;">
+                        Casino social com design elegante e jogos exclusivos. Ideal para quem procura algo diferente.
+                    </p>
+
+                    <ul class="casino-features">
+                        <li>40,000 moedas de boas-vindas</li>
+                        <li>Jogos exclusivos da casa</li>
+                        <li>Sistema de recompensas diárias</li>
+                        <li>App móvel nativa</li>
+                    </ul>
+
+                    <div class="casino-stats">
+                        <div class="stat-item">
+                            <div class="stat-value">400+</div>
+                            <div class="stat-label">Jogos</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">9.5</div>
+                            <div class="stat-label">Avaliação</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">📱</div>
+                            <div class="stat-label">App</div>
+                        </div>
+                    </div>
+
+                    <a href="platform-detail.html" class="btn btn-primary"
+                        style="width: 100%; justify-content: center; margin-top: 1rem;">
+                        🎮 Explorar Agora
+                    </a>
+                </div>
+            </div>
+
+            <!-- Casino 4 -->
+            <div class="casino-card">
+                <div class="casino-header">
+                    <span class="new-tag">NOVO</span>
+                    <div class="casino-logo">🌟</div>
+                    <div class="casino-name">StarBet Social</div>
+                    <div class="casino-rating">⭐⭐⭐⭐⭐ 9.4</div>
+                    <p class="text-dim">Lançado em Outubro 2024</p>
+                </div>
+                <div class="casino-body">
+                    <p style="margin-bottom: 1.5rem; color: #CBD5E1;">
+                        Plataforma com foco em jogos rápidos e ganhos frequentes. Perfeita para sessões rápidas de
+                        diversão.
+                    </p>
+
+                    <ul class="casino-features">
+                        <li>25,000 moedas grátis</li>
+                        <li>Jogos de alta volatilidade</li>
+                        <li>Bónus diários automáticos</li>
+                        <li>Comunidade ativa</li>
+                    </ul>
+
+                    <div class="casino-stats">
+                        <div class="stat-item">
+                            <div class="stat-value">300+</div>
+                            <div class="stat-label">Jogos</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">9.4</div>
+                            <div class="stat-label">Avaliação</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">⚡</div>
+                            <div class="stat-label">Rápido</div>
+                        </div>
+                    </div>
+
+                    <a href="platform-detail.html" class="btn btn-primary"
+                        style="width: 100%; justify-content: center; margin-top: 1rem;">
+                        🎮 Explorar Agora
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div
+            style="margin: 4rem 0; padding: 3rem; background: var(--dark-card); border-radius: 20px; border: 1px solid var(--border); text-align: center;">
+            <h2 style="font-size: 2rem; margin-bottom: 1rem; color: var(--primary);">📊 Como Avaliamos os Novos Casinos
+            </h2>
+            <p style="color: #CBD5E1; line-height: 1.8; max-width: 800px; margin: 0 auto 2rem auto;">
+                A nossa equipa de especialistas avalia cada novo casino com base em critérios rigorosos: variedade de
+                jogos,
+                experiência do utilizador, bónus e ofertas, segurança e suporte ao cliente. Só recomendamos plataformas
+                que
+                passem em todos os nossos testes.
+            </p>
+            <div
+                style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; margin-top: 2rem;">
+                <div>
+                    <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">🎮</div>
+                    <h3 style="margin-bottom: 0.5rem;">Variedade de Jogos</h3>
+                    <p style="color: var(--text-dim); font-size: 0.9rem;">Avaliamos a qualidade e diversidade da
+                        biblioteca de jogos</p>
+                </div>
+                <div>
+                    <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">💎</div>
+                    <h3 style="margin-bottom: 0.5rem;">Bónus e Ofertas</h3>
+                    <p style="color: var(--text-dim); font-size: 0.9rem;">Analisamos os bónus de boas-vindas e ofertas
+                        regulares</p>
+                </div>
+                <div>
+                    <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">🔒</div>
+                    <h3 style="margin-bottom: 0.5rem;">Segurança</h3>
+                    <p style="color: var(--text-dim); font-size: 0.9rem;">Verificamos medidas de segurança e proteção de
+                        dados</p>
+                </div>
+                <div>
+                    <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">💬</div>
+                    <h3 style="margin-bottom: 0.5rem;">Suporte</h3>
+                    <p style="color: var(--text-dim); font-size: 0.9rem;">Testamos qualidade e disponibilidade do
+                        suporte</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div>
+                    <div class="logo" style="margin-bottom: 1rem;">
+                        <a href="index.html" style="text-decoration:none;">
+                            <img src="images/logo.svg" alt="DemoSlots" height="50">
+                        </a>
+                    </div>
+                    <p class="text-dim" style="line-height: 1.6;">
+                        O teu destino #1 para slots demo em Portugal. Plataforma 100% social e gratuita para
+                        entretenimento.
+                    </p>
+                </div>
+
+                <div>
+                    <span class="footer-title">Plataformas</span>
+                    <ul class="footer-links">
+                        <li><a href="rankings.html">Top Rated</a></li>
+                        <li><a href="novos-casinos.html">Novos Casinos</a></li>
+                        <li><a href="mobile-apps.html">Mobile Apps</a></li>
+                        <li><a href="#">Sem Registo</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <span class="footer-title">Comunidade</span>
+                    <ul class="footer-links">
+                        <li><a href="tournaments.html">Torneios</a></li>
+                        <li><a href="profile.html">Leaderboards</a></li>
+                        <li><a href="community.html">Fórum</a></li>
+                        <li><a href="news.html">Blog</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <span class="footer-title">Informação</span>
+                    <ul class="footer-links">
+                        <li><a href="about.html">Sobre Nós</a></li>
+                        <li><a href="contact.html">Contacto</a></li>
+                        <li><a href="responsible-gaming.html">Jogo Responsável</a></li>
+                        <li><a href="#">Termos e Condições</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="copyright-bar">
+                © 2025 DemoSlots.pt - Todos os direitos reservados. 18+ | Joga Responsavelmente.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Search functionality in header
+        document.addEventListener('DOMContentLoaded', function () {
+            const searchInput = document.querySelector('.search-bar input');
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function (e) {
+                    if (e.key === 'Enter') {
+                        const query = this.value.trim();
+                        if (query) {
+                            window.location.href = `games.html?search=${encodeURIComponent(query)}`;
+                        }
+                    }
+                });
+            }
+        });
+
+        // Mobile Menu Toggle
+        const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+        const mainNav = document.getElementById('mainNav');
+
+        if (mobileMenuToggle && mainNav) {
+            mobileMenuToggle.addEventListener('click', function () {
+                mainNav.classList.toggle('mobile-open');
+            });
+
+            document.addEventListener('click', function (event) {
+                if (!mainNav.contains(event.target) && !mobileMenuToggle.contains(event.target)) {
+                    mainNav.classList.remove('mobile-open');
+                }
+            });
+        }
+    </script>
+
+    <!-- Chatbot Script -->
+    <script src="chatbot.js"></script>
+</body>
+
+</html>
